@@ -148,7 +148,7 @@
   <h2 id="productTitle">Лінійка</h2>
   <div class="product-switcher">
     <div class="product-image">
-      <img id="productImg" src="https://dummyimage.com/200x400/1a3d2a/ffffff&text=WINTER" alt="product">
+      <img id="productImg" src="png_winter.png" alt="product">
     </div>
     <div class="switch-buttons">
       <button class="active" onclick="setProduct('winter')">Winter</button>
@@ -171,9 +171,9 @@
 
 <footer>
   <div class="socials">
-    <a href="#">Instagram</a>
-    <a href="#">TikTok</a>
-    <a href="mailto:hello@wildroot.local">Email</a>
+    <a href="https://www.instagram.com/amat0rr">Instagram</a>
+    <a href="https://www.tiktok.com/@amatorr_studio">TikTok</a>
+    <a href="mailto:zhurkovanya@gmail.com">Email</a>
   </div>
   <p>© 2025 WILDROOT</p>
 </footer>
@@ -222,8 +222,8 @@
   function updateProduct() {
     productDesc.innerText = data[currentLang][currentProduct];
     productImg.src = currentProduct === 'winter'
-      ? 'https://dummyimage.com/200x400/1a3d2a/ffffff&text=WINTER'
-      : 'https://dummyimage.com/200x400/9ed36a/0f2a1d&text=SUMMER';
+      ? 'png_winter.png'
+      : 'png_summer.png';
   }
 
   uaBtn.onclick = () => setLang('ua');
