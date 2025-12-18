@@ -3,17 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MOONHERB — Herbal Honey Syrup</title>
+  <title>BRAND NAME</title>
+  <link rel="icon" type="image/png" href="logo.png">
 
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=STIX+Two+Text:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-winter: #0F2A1D;
-      --bg-summer: #2D4A2F;
-      --current-bg: var(--bg-winter);
-      --bg-light: #F5F1E0;
-      --text: #F5F1E0;
+      /* --- КОЛЬОРИ --- */
+      --bg-winter-dark: #0F2A1D;
+      --bg-summer-dark: #2D4A2F;
+      --bg-summer-light: #F5F1E0;
+      --bg-winter-light: #E0DCC5;
+
+      --text-light: #F5F1E0;
       --text-dark: #0F2A1D;
       --accent: #D4A017;
       --card: rgba(255,255,255,0.08);
@@ -27,43 +30,43 @@
 
     body {
       font-family: var(--font-body);
-      background-color: var(--current-bg);
-      color: var(--text);
+      background-color: var(--bg-winter-dark); 
+      color: var(--text-light);
       line-height: 1.6;
       overflow-x: hidden;
-      transition: background-color 0.5s ease, color 0.3s ease;
+      transition: background-color 0.6s ease, color 0.3s ease;
     }
 
-    /* Заголовки */
-    h1, h2, h3, .edition { font-family: var(--font-heading); }
+    /* --- ЛОГІКА ТЕМ --- */
+    body[data-product="winter"] { background-color: var(--bg-winter-dark); }
+    body[data-product="summer"] { background-color: var(--bg-summer-dark); }
+    body.light[data-product="winter"] { background-color: var(--bg-winter-light) !important; }
+    body.light[data-product="summer"] { background-color: var(--bg-summer-light) !important; }
 
-    /* СВІТЛА ТЕМА */
-    body.light { background-color: var(--bg-light) !important; color: var(--text-dark); }
+    body.light { color: var(--text-dark); }
     body.light .card { border-color: rgba(0,0,0,0.1); background: rgba(0,0,0,0.05); }
     body.light .socials a { color: var(--text-dark) !important; }
     body.light header { background: rgba(245, 241, 224, 0.9); }
+    body.light .brand-text, body.light .hero-brand-text { color: var(--text-dark); }
+    body.light .logo-img, body.light .brand-img { filter: invert(1) brightness(0.2); }
 
-    /* ЛОГОТИПИ */
-    /* Якщо логотип світлий (PNG/SVG), цей фільтр зробить його темним у світлій темі */
-    body.light .logo-img, body.light .brand-img {
-        filter: invert(1) brightness(0.2); 
-    }
+    h1, h2, h3, .edition { font-family: var(--font-heading); }
 
+    /* HEADER */
     header {
       position: fixed; top: 0; left: 0; width: 100%; z-index: 10;
       display: flex; justify-content: space-between; align-items: center;
       padding: 14px 20px; background: rgba(15, 42, 29, 0.9); backdrop-filter: blur(6px);
     }
-
-    /* Стиль для маленького лого в шапці */
-    .brand-img {
-      height: 24px; /* Висота лого в меню */
-      width: auto;
-      display: block;
-      transition: 0.3s;
+    .brand-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .brand-img { height: 32px; width: auto; display: block; transition: 0.3s; }
+    .brand-text {
+      font-family: var(--font-heading); font-size: 20px; font-weight: 600;
+      letter-spacing: 2px; color: var(--text-light); text-transform: uppercase;
+      transition: color 0.3s ease;
     }
 
-    /* ПЕРЕМИКАЧ iOS */
+    /* SWITCH */
     .theme-switch-wrapper { display: flex; align-items: center; }
     .theme-switch { display: inline-block; height: 30px; position: relative; width: 56px; }
     .theme-switch input { display: none; }
@@ -74,9 +77,9 @@
       border: 1px solid rgba(255,255,255,0.15);
     }
     .icon { width: 16px; height: 16px; transition: .4s; z-index: 1; }
-    .icon-sun { opacity: 0; transform: scale(0.5); }
+    .icon-sun { opacity: 0; transform: scale(0.5); } 
     .icon-sun path { fill: #fff; }
-    .icon-moon { opacity: 1; filter: drop-shadow(0 0 3px rgba(255,255,255,0.6)); }
+    .icon-moon { opacity: 1; filter: drop-shadow(0 0 3px rgba(255,255,255,0.6)); } 
     .icon-moon path { fill: #fff; }
     .knob {
       background-color: #fff; bottom: 3px; height: 22px;
@@ -88,7 +91,7 @@
     input:checked + .slider .icon-sun { opacity: 1; transform: scale(1); }
     input:checked + .slider .icon-moon { opacity: 0; transform: scale(0.5); }
 
-    /* КНОПКИ */
+    /* BUTTONS */
     .btn, .cta, .change-btn {
       border: 1px solid var(--accent); color: var(--accent); background: transparent;
       padding: 8px 20px; font-size: 12px; cursor: pointer; border-radius: 50px;
@@ -96,37 +99,44 @@
       display: inline-block; text-decoration: none; font-family: var(--font-body); font-weight: 500;
     }
     .btn.active, .btn:hover, .cta:hover, .change-btn:hover { background: var(--accent); color: white; }
-
     .controls { display: flex; align-items: center; gap: 12px; }
-    
+
+    /* HERO */
     .hero { 
       min-height: 100vh; display: flex; flex-direction: column; 
       justify-content: center; align-items: center; text-align: center; padding: 20px; 
     }
-
-    /* Стиль для ВЕЛИКОГО лого на головній */
     .logo-img { 
-      width: 300px; /* Ширина логотипу */
-      max-width: 80vw; /* Щоб не вилазив на мобільних */
-      height: auto;
-      margin-bottom: 20px;
-      filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3)); /* Тінь для об'єму */
-      transition: 0.3s;
+      width: 280px; max-width: 80vw; height: auto; margin-bottom: 10px;
+      filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3)); transition: 0.3s;
+    }
+    .hero-brand-text {
+      font-family: var(--font-heading); font-size: clamp(32px, 5vw, 48px);
+      letter-spacing: 6px; margin-bottom: 10px; color: var(--text-light);
+      text-transform: uppercase; font-weight: 600; transition: color 0.3s ease;
+    }
+    #tagline {
+      margin-bottom: 30px; max-width: 600px; opacity: 0.9; font-size: 16px;
     }
 
     section { padding: 80px 20px; max-width: 1100px; margin: auto; }
-    h2 { text-align: center; font-size: 34px; margin-bottom: 30px; font-weight: 600; }
+    h2 { text-align: center; font-size: 34px; margin-bottom: 40px; font-weight: 600; }
 
+    /* PRODUCT */
     .product { display: flex; flex-direction: column; align-items: center; gap: 20px; }
     .swiper { width: 220px; height: 420px; overflow: hidden; position: relative; }
     .slides { display: flex; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
     .slide { min-width: 220px; height: 420px; display: flex; align-items: center; justify-content: center; }
     .slide img { max-height: 100%; }
     .edition { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; opacity: .9; margin-top: 10px; }
+    .product-desc { text-align: center; max-width: 600px; min-height: 5em; font-size: 15px; }
 
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; }
-    .card { background: var(--card); padding: 24px; text-align: center; border: 1px solid rgba(255,255,255,0.12); border-radius: 15px; }
-    .card-img { width: 60px; height: 60px; margin: 0 auto 15px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    /* RECIPES */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    .card { background: var(--card); padding: 30px 20px; text-align: center; border: 1px solid rgba(255,255,255,0.12); border-radius: 15px; transition: 0.3s; }
+    .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+    .card-img { width: 60px; height: 60px; margin: 0 auto 20px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .card p { font-size: 15px; }
 
     .snow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
     footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
@@ -137,8 +147,9 @@
 <canvas class="snow"></canvas>
 
 <header>
-  <a href="#" class="brand">
-      <img src="logo.png" alt="MOONHERB" class="brand-img">
+  <a href="#" class="brand-container">
+      <img src="logo.png" alt="Logo" class="brand-img">
+      <span class="brand-text">BRAND NAME</span>
   </a>
 
   <div class="controls">
@@ -148,7 +159,7 @@
       <label class="theme-switch" for="checkbox">
         <input type="checkbox" id="checkbox" />
         <div class="slider">
-          <svg class="icon icon-sun" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g><path d="M32.003,16.003c-8.837,0-16.001,7.165-16.001,16.001s7.165,16.001,16.001,16.001s16.001-7.164,16.001-16.001S40.84,16.003,32.003,16.003z M32.003,40.006c-4.418,0-8.001-3.587-8.001-8.001c0-4.422,3.583-8.001,8.001-8.001s8.001,3.579,8.001,8.001C40.004,36.419,36.421,40.006,32.003,40.006z"/><path d="M12.001,31.997c0-2.211-1.789-4-4-4H4c-2.211,0-4,1.789-4,4s1.789,4,4,4h4C10.212,35.997,12.001,34.208,12.001,31.997z"/><path d="M12.204,46.139l-2.832,2.829c-1.563,1.562-1.563,4.094,0,5.656c1.562,1.562,4.094,1.562,5.657,0l2.833-2.828c1.562-1.562,1.562-4.095,0-5.657C16.298,44.576,13.767,44.576,12.204,46.139z"/><path d="M32.003,51.999c-2.211,0-4,1.789-4,4V60c0,2.211,1.789,4,4,4s4-1.789,4-4l-0.004-4.001C36.003,53.788,34.21,51.999,32.003,51.999z"/><path d="M51.798,46.139c-1.559-1.562-4.091-1.562-5.653,0s-1.562,4.095,0,5.657l2.829,2.828c1.562,1.57,4.094,1.562,5.656,0s1.566-4.094,0-5.656L51.798,46.139z"/><path d="M60.006,27.997l-4.009,0.008c-2.203-0.008-3.992,1.781-3.992,3.992c-0.008,2.211,1.789,4,3.992,4h4.001c2.219,0.008,4-1.789,4-4C64.002,29.786,62.217,27.997,60.006,27.997z"/><path d="M51.798,17.855l2.828-2.829c1.574-1.562,1.562-4.094,0-5.657c-1.559-1.563-4.09-1.563-5.652,0l-2.829,2.836c-1.562,1.555-1.562,4.086,0,5.649C47.699,19.426,50.239,19.418,51.798,17.855z"/><path d="M32.003,11.995c2.207,0.016,4-1.789,4-3.992v-4c0-2.219-1.789-4-4-4c-2.211-0.008-4,1.781-4,3.993l0.008,4.008C28.003,10.206,29.792,11.995,32.003,11.995z"/><path d="M12.212,17.855c1.555,1.562,4.079,1.562,5.646-0.008c1.574-1.547,1.566-4.086,0.008-5.649L15.037,9.37c-1.57-1.571-4.094-1.555-5.657,0c-1.575,1.562-1.575,4.094-0.012,5.657L12.212,17.855z"/></g></svg>
+          <svg class="icon icon-sun" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g><path d="M32.003,16.003c-8.837,0-16.001,7.165-16.001,16.001s7.165,16.001,16.001,16.001s16.001-7.164,16.001-16.001S40.84,16.003,32.003,16.003z M32.003,40.006c-4.418,0-8.001-3.587-8.001-8.001c0-4.422,3.583-8.001,8.001-8.001s8.001,3.579,8.001,8.001C40.004,36.419,36.421,40.006,32.003,40.006z"/><path d="M12.001,31.997c0-2.211-1.789-4-4-4H4c-2.211,0-4,1.789-4,4s1.789,4,4,4h4C10.212,35.997,12.001,34.208,12.001,31.997z"/><path d="M12.204,46.139l-2.832,2.829c-1.563,1.562-1.563,4.094,0,5.656c1.562,1.562,4.094,1.562,5.657,0l2.833-2.828c1.562-1.562,1.562-4.095,0-5.657C16.298,44.576,13.767,44.576,12.204,46.139z"/><path d="M32.003,51.999c-2.211,0-4,1.789-4,4V60c0,2.211,1.789,4,4,4s4-1.789,4-4l-0.004-4.001C36.003,53.788,34.21,51.999,32.003,51.999z"/><path d="M51.798,46.139c-1.559-1.562-4.091-1.562-5.653,0s-1.562,4.095,0,5.657l2.829,2.828c1.562,1.57,4.094,1.562,5.656,0s1.566-4.094,0-5.656L51.798,46.139z"/><path d="M32.003,11.995c2.207,0.016,4-1.789,4-3.992v-4c0-2.219-1.789-4-4-4c-2.211-0.008-4,1.781-4,3.993l0.008,4.008C28.003,10.206,29.792,11.995,32.003,11.995z"/><path d="M12.212,17.855c1.555,1.562,4.079,1.562,5.646-0.008c1.574-1.547,1.566-4.086,0.008-5.649L15.037,9.37c-1.57-1.571-4.094-1.555-5.657,0c-1.575,1.562-1.575,4.094-0.012,5.657L12.212,17.855z"/></g></svg>
           <svg class="icon icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path opacity="0.5" d="M22 12.0004C22 17.5232 17.5228 22.0004 12 22.0004C10.8358 22.0004 9.71801 21.8014 8.67887 21.4357C8.24138 20.3772 8 19.217 8 18.0004C8 15.7792 8.80467 13.7459 10.1384 12.1762C11.31 13.8818 13.2744 15.0004 15.5 15.0004C17.8615 15.0004 19.9289 13.741 21.0672 11.8572C21.3065 11.4612 22 11.5377 22 12.0004Z"/><path d="M2 12C2 16.3586 4.78852 20.0659 8.67887 21.4353C8.24138 20.3768 8 19.2166 8 18C8 15.7788 8.80467 13.7455 10.1384 12.1758C9.42027 11.1303 9 9.86422 9 8.5C9 6.13845 10.2594 4.07105 12.1432 2.93276C12.5392 2.69347 12.4627 2 12 2C6.47715 2 2 6.47715 2 12Z"/></svg>
           <div class="knob"></div>
         </div>
@@ -158,14 +169,15 @@
 </header>
 
 <div class="hero">
-  <img src="logo.png" alt="MOONHERB" class="logo-img">
+  <img src="logo.png" alt="Logo" class="logo-img">
+  <div class="hero-brand-text">BRAND NAME</div>
   
-  <p id="tagline" style="margin-bottom: 30px;">Крафтовий травʼяний медовий сироп з характером</p>
-  <a href="#product" class="cta" id="cta">ДІЗНАТИСЯ БІЛЬШЕ</a>
+  <p id="tagline" style="margin-bottom: 30px;"></p>
+  <a href="#product" class="cta" id="cta"></a>
 </div>
 
 <section id="product">
-  <h2 id="productTitle">Колекції</h2>
+  <h2 id="productTitle"></h2>
   <div class="product">
     <div class="swiper" id="swiper">
       <div class="slides" id="slides">
@@ -173,18 +185,27 @@
         <div class="slide"><img src="png_summer.png" alt="Summer"></div>
       </div>
     </div>
-    <div class="edition" id="edition">WINTER EDITION</div>
-    <p class="product-desc" id="productDesc" style="text-align:center; max-width:500px; min-height: 3em;"></p>
-    <button class="change-btn" id="changeBtn">Змінити</button>
+    <div class="edition" id="edition"></div>
+    <p class="product-desc" id="productDesc"></p>
+    <button class="change-btn" id="changeBtn"></button>
   </div>
 </section>
 
 <section>
-  <h2 id="drinkTitle">Як пити</h2>
+  <h2 id="drinkTitle"></h2>
   <div class="grid">
-    <div class="card"><div class="card-img"></div><p id="drink1">30 мл MOONHERB + тонік + лід</p></div>
-    <div class="card"><div class="card-img"></div><p id="drink2">Коктейль у стилі Spritz</p></div>
-    <div class="card"><div class="card-img"></div><p id="drink3">Безалкогольний аперитив</p></div>
+    <div class="card">
+      <div class="card-img"><img src="icon1.png" alt="" onerror="this.style.display='none'"></div>
+      <p id="drink1"></p>
+    </div>
+    <div class="card">
+      <div class="card-img"><img src="icon1.png" alt="" onerror="this.style.display='none'"></div>
+      <p id="drink2"></p>
+    </div>
+    <div class="card">
+      <div class="card-img"><img src="icon1.png" alt="" onerror="this.style.display='none'"></div>
+      <p id="drink3"></p>
+    </div>
   </div>
 </section>
 
@@ -193,7 +214,7 @@
     <a href="https://www.instagram.com/amat0rr" style="color:inherit; text-decoration:none; margin: 0 10px;">Instagram</a>
     <a href="https://www.tiktok.com/@amatorr_studio" style="color:inherit; text-decoration:none; margin: 0 10px;">TikTok</a>
   </div>
-  <p>© 2025 MOONHERB</p>
+  <p>© 2025 BRAND NAME</p>
 </footer>
 
 <script>
@@ -208,22 +229,36 @@
 
   const copy = {
     ua: {
-      tagline: "Крафтовий травʼяний медовий сироп з характером", cta: "ДІЗНАТИСЯ БІЛЬШЕ",
-      productTitle: "Колекції", drinkTitle: "Як пити", change: "Змінити",
-      winter: "Глибокий, пряний та зігріваючий профіль з корінням і спеціями.",
-      summer: "Свіжий, цитрусово-травʼяний профіль для теплих днів.", editionSuffix: "ЕДИЦІЯ",
-      drink1: "30 мл MOONHERB + тонік + лід",
-      drink2: "Коктейль у стилі Spritz",
-      drink3: "Безалкогольний аперитив"
+      tagline: "Магія дикої природи у кожній краплі. Крафтовий медовий еліксир, створений за стародавніми рецептами для сучасних ритуалів.", 
+      cta: "ДІЗНАТИСЯ БІЛЬШЕ",
+      productTitle: "Колекції", 
+      drinkTitle: "Мистецтво споживання", 
+      change: "Змінити смак",
+      
+      winter: "Зимова казка у пляшці. Глибокий смак темного меду поєднаний з зігріваючою корицею, бодяном та пікантним коренем імбиру. Ідеальний компаньйон для затишних вечорів, гарячого чаю або авторського глінтвейну.",
+      summer: "Подих літнього вітру. Легкий та освіжаючий букет з лугових трав, прохолодної м'яти та соковитого лайма на основі ніжного квіткового меду. Додає вишуканості лимонадам та легким аперитивам у спекотний день.",
+      
+      editionSuffix: "ВЕРСІЯ",
+      
+      drink1: "CLASSIC TONIC: Наповніть келих льодом. Додайте 30 мл сиропу та 150 мл якісного тоніка. Прикрасьте гілочкою розмарину.",
+      drink2: "MOON SPRITZ: Змішайте 40 мл сиропу з 60 мл ігристого вина (Prosecco) та сплешем газованої води. Подавайте зі слайсом апельсина.",
+      drink3: "NATURE SOUR: У шейкері збийте 30 мл сиропу, 20 мл лимонного соку та лід. Процідіть у охолоджений келих для ідеального безалкогольного коктейлю."
     },
     en: {
-      tagline: "Craft herbal honey syrup with character", cta: "LEARN MORE",
-      productTitle: "Editions", drinkTitle: "How to drink", change: "Change",
-      winter: "Deep, spicy and warming profile with roots and botanicals.",
-      summer: "Fresh citrus-herbal profile for warm days.", editionSuffix: "EDITION",
-      drink1: "30 ml MOONHERB + tonic + ice",
-      drink2: "Spritz-style cocktail",
-      drink3: "Non-alcoholic aperitif"
+      tagline: "Magic of wild nature in every drop. Craft honey elixir created from ancient recipes for modern rituals.", 
+      cta: "LEARN MORE",
+      productTitle: "Collections", 
+      drinkTitle: "Art of Drinking", 
+      change: "Change Flavor",
+      
+      winter: "Winter fairy tale in a bottle. The deep taste of dark honey combined with warming cinnamon, star anise, and spicy ginger root. The perfect companion for cozy evenings, hot tea, or signature mulled wine.",
+      summer: "Breath of the summer wind. Light and refreshing bouquet of meadow herbs, cool mint, and juicy lime based on delicate floral honey. Adds sophistication to lemonades and light aperitifs on a hot day.",
+      
+      editionSuffix: "EDITION",
+      
+      drink1: "CLASSIC TONIC: Fill a glass with ice. Add 30 ml of syrup and 150 ml of premium tonic water. Garnish with a sprig of rosemary.",
+      drink2: "MOON SPRITZ: Mix 40 ml of syrup with 60 ml of sparkling wine (Prosecco) and a splash of soda water. Serve with an orange slice.",
+      drink3: "NATURE SOUR: Shake 30 ml of syrup, 20 ml of lemon juice, and ice in a shaker. Strain into a chilled glass for the perfect non-alcoholic cocktail."
     }
   };
 
@@ -239,7 +274,9 @@
   function updateProduct() {
     slides.style.transform = `translateX(-${index * 100}%)`;
     const key = index === 0 ? 'winter' : 'summer';
-    document.documentElement.style.setProperty('--current-bg', index === 0 ? 'var(--bg-winter)' : 'var(--bg-summer)');
+    
+    document.body.setAttribute('data-product', index === 0 ? 'winter' : 'summer');
+    
     const editionName = lang === 'ua' ? (index === 0 ? 'ЗИМОВА' : 'ЛІТНЯ') : (index === 0 ? 'WINTER' : 'SUMMER');
     edition.innerText = `${editionName} ${copy[lang].editionSuffix}`;
     desc.innerText = copy[lang][key];
@@ -266,9 +303,13 @@
   uaBtn.onclick = () => { lang = 'ua'; uaBtn.classList.add('active'); enBtn.classList.remove('active'); applyLang(); };
   enBtn.onclick = () => { lang = 'en'; enBtn.classList.add('active'); uaBtn.classList.remove('active'); applyLang(); };
 
+  // ПРИМУСОВЕ СКИДАННЯ ЧЕКБОКСУ (ВИПРАВЛЕННЯ БАГУ ПЕРШОГО ЗАХОДУ)
+  toggleSwitch.checked = false;
+  document.body.classList.remove('light');
+  document.body.setAttribute('data-product', 'winter');
+  
   applyLang();
 
-  // Snow animation
   const canvas = document.querySelector('.snow');
   const ctx = canvas.getContext('2d');
   let w, h;
