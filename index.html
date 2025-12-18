@@ -9,123 +9,69 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=STIX+Two+Text:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
+    /* ВСТАВТЕ СЮДИ ВЕСЬ ПОПЕРЕДНІЙ CSS БЕЗ ЗМІН */
+    /* Я його скоротив тут, щоб не займати місце, бо він не змінюється */
     :root {
-      /* --- КОЛЬОРИ --- */
-      --bg-winter-dark: #0F2A1D;
-      --bg-summer-dark: #2D4A2F;
-      --bg-summer-light: #F5F1E0;
-      --bg-winter-light: #E0DCC5;
-
-      --text-light: #F5F1E0;
-      --text-dark: #0F2A1D;
-      --accent: #D4A017;
-      --card: rgba(255,255,255,0.08);
-      
-      --font-body: 'IBM Plex Sans', sans-serif;
-      --font-heading: 'STIX Two Text', serif;
+      --bg-winter-dark: #0F2A1D; --bg-summer-dark: #2D4A2F; --bg-summer-light: #F5F1E0; --bg-winter-light: #E0DCC5;
+      --text-light: #F5F1E0; --text-dark: #0F2A1D; --accent: #D4A017; --card: rgba(255,255,255,0.08);
+      --font-body: 'IBM Plex Sans', sans-serif; --font-heading: 'STIX Two Text', serif;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { scroll-behavior: auto !important; }
-
-    body {
-      font-family: var(--font-body);
-      background-color: var(--bg-winter-dark); 
-      color: var(--text-light);
-      line-height: 1.6;
-      overflow-x: hidden;
-      transition: background-color 0.6s ease, color 0.3s ease;
-    }
-
-    /* --- ЛОГІКА ТЕМ --- */
+    body { font-family: var(--font-body); background-color: var(--bg-winter-dark); color: var(--text-light); line-height: 1.6; overflow-x: hidden; transition: background-color 0.6s ease, color 0.3s ease; }
     body[data-product="winter"] { background-color: var(--bg-winter-dark); }
     body[data-product="summer"] { background-color: var(--bg-summer-dark); }
     body.light[data-product="winter"] { background-color: var(--bg-winter-light) !important; }
     body.light[data-product="summer"] { background-color: var(--bg-summer-light) !important; }
-
     body.light { color: var(--text-dark); }
     body.light .card { border-color: rgba(0,0,0,0.1); background: rgba(0,0,0,0.05); }
     body.light .socials a { color: var(--text-dark) !important; }
-    body.light header { background: rgba(245, 241, 224, 0.9); }
+    body.light header { background: rgba(245, 241, 224, 0.95); }
     body.light .brand-text, body.light .hero-brand-text { color: var(--text-dark); }
     body.light .logo-img, body.light .brand-img { filter: invert(1) brightness(0.2); }
-
+    body.light input, body.light select, body.light textarea { background: rgba(0,0,0,0.05); border-bottom: 1px solid rgba(0,0,0,0.2); color: var(--text-dark); }
     h1, h2, h3, .edition { font-family: var(--font-heading); }
-
-    /* HEADER */
-    header {
-      position: fixed; top: 0; left: 0; width: 100%; z-index: 10;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 14px 20px; background: rgba(15, 42, 29, 0.9); backdrop-filter: blur(6px);
-    }
+    header { position: fixed; top: 0; left: 0; width: 100%; z-index: 50; display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; background: rgba(15, 42, 29, 0.95); backdrop-filter: blur(8px); }
     .brand-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
     .brand-img { height: 32px; width: auto; display: block; transition: 0.3s; }
-    .brand-text {
-      font-family: var(--font-heading); font-size: 20px; font-weight: 600;
-      letter-spacing: 2px; color: var(--text-light); text-transform: uppercase;
-      transition: color 0.3s ease;
-    }
-
-    /* SWITCH */
-    .theme-switch-wrapper { display: flex; align-items: center; }
+    .brand-text { font-family: var(--font-heading); font-size: 20px; font-weight: 600; letter-spacing: 2px; color: var(--text-light); text-transform: uppercase; transition: color 0.3s ease; }
+    .controls { display: flex; align-items: center; gap: 8px; }
+    .btn, .cta, .change-btn, .submit-btn { border: 1px solid var(--accent); color: var(--accent); background: transparent; padding: 8px 16px; font-size: 11px; cursor: pointer; border-radius: 50px; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; display: inline-block; text-decoration: none; font-family: var(--font-body); font-weight: 500; }
+    .btn.active, .btn:hover, .cta:hover, .change-btn:hover { background: var(--accent); color: white; }
+    #contactBtn { background-color: var(--accent); color: #fff; border: 1px solid var(--accent); padding: 8px 20px; font-weight: 600; box-shadow: 0 0 15px rgba(212, 160, 23, 0.4); animation: pulse 3s infinite; }
+    #contactBtn:hover { background-color: #b08d28; border-color: #b08d28; transform: scale(1.05); box-shadow: 0 0 20px rgba(212, 160, 23, 0.6); }
+    body.light #contactBtn { color: #fff; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(212, 160, 23, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(212, 160, 23, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 160, 23, 0); } }
+    .theme-switch-wrapper { display: flex; align-items: center; margin-left: 5px; }
     .theme-switch { display: inline-block; height: 30px; position: relative; width: 56px; }
     .theme-switch input { display: none; }
-    .slider {
-      background-color: #1a1a1a; bottom: 0; cursor: pointer; left: 0;
-      position: absolute; right: 0; top: 0; transition: .4s; border-radius: 34px;
-      display: flex; align-items: center; justify-content: space-between; padding: 0 6px;
-      border: 1px solid rgba(255,255,255,0.15);
-    }
+    .slider { background-color: #1a1a1a; bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 34px; display: flex; align-items: center; justify-content: space-between; padding: 0 6px; border: 1px solid rgba(255,255,255,0.15); }
     .icon { width: 16px; height: 16px; transition: .4s; z-index: 1; }
-    
     .icon-sun { opacity: 0; transform: scale(0.5); } 
-    /* Видалив примусовий білий колір для сонця, щоб було видно кольори SVG */
-    
     .icon-moon { opacity: 1; filter: drop-shadow(0 0 3px rgba(255,255,255,0.6)); } 
-    .icon-moon path { fill: #fff; }
-    
-    .knob {
-      background-color: #fff; bottom: 3px; height: 22px;
-      left: 4px; position: absolute; transition: .4s; width: 22px; 
-      border-radius: 50%; z-index: 2; box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-    }
+    .knob { background-color: #fff; bottom: 3px; height: 22px; left: 4px; position: absolute; transition: .4s; width: 22px; border-radius: 50%; z-index: 2; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
     input:checked + .slider { background-color: var(--accent); border-color: transparent; }
     input:checked + .slider .knob { transform: translateX(26px); }
     input:checked + .slider .icon-sun { opacity: 1; transform: scale(1); }
     input:checked + .slider .icon-moon { opacity: 0; transform: scale(0.5); }
-
-    /* BUTTONS */
-    .btn, .cta, .change-btn {
-      border: 1px solid var(--accent); color: var(--accent); background: transparent;
-      padding: 8px 20px; font-size: 12px; cursor: pointer; border-radius: 50px;
-      transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px;
-      display: inline-block; text-decoration: none; font-family: var(--font-body); font-weight: 500;
-    }
-    .btn.active, .btn:hover, .cta:hover, .change-btn:hover { background: var(--accent); color: white; }
-    .controls { display: flex; align-items: center; gap: 12px; }
-
-    /* HERO */
-    .hero { 
-      min-height: 100vh; display: flex; flex-direction: column; 
-      justify-content: center; align-items: center; text-align: center; padding: 20px; 
-    }
-    .logo-img { 
-      width: 280px; max-width: 80vw; height: auto; margin-bottom: 10px;
-      filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3)); transition: 0.3s;
-    }
-    .hero-brand-text {
-      font-family: var(--font-heading); font-size: clamp(32px, 5vw, 48px);
-      letter-spacing: 6px; margin-bottom: 10px; color: var(--text-light);
-      text-transform: uppercase; font-weight: 600; transition: color 0.3s ease;
-    }
-    #tagline {
-      margin-bottom: 30px; max-width: 600px; opacity: 0.9; font-size: 16px;
-    }
-
+    .modal { display: flex; align-items: center; justify-content: center; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(5px); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s ease, visibility 0.3s ease; }
+    .modal.show { opacity: 1; visibility: visible; pointer-events: auto; }
+    .modal-content { background-color: var(--bg-winter-dark); border: 1px solid var(--accent); padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: var(--text-light); transform: scale(0.95); transition: transform 0.3s ease; }
+    .modal.show .modal-content { transform: scale(1); }
+    body.light .modal-content { background-color: var(--bg-summer-light); color: var(--text-dark); border-color: rgba(0,0,0,0.2); }
+    .close { color: var(--accent); float: right; font-size: 28px; font-weight: bold; cursor: pointer; position: absolute; right: 20px; top: 10px; }
+    form { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+    input, select, textarea { width: 100%; padding: 12px; border: none; border-bottom: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); color: inherit; font-family: var(--font-body); font-size: 16px; border-radius: 4px; outline: none; }
+    input:focus, textarea:focus { border-bottom-color: var(--accent); }
+    label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; }
+    .submit-btn { width: 100%; margin-top: 10px; background-color: var(--accent); color: white; border: none; }
+    .submit-btn:hover { background-color: #b08d28; }
+    .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; padding-top: 80px; }
+    .logo-img { width: 260px; max-width: 70vw; height: auto; margin-bottom: 10px; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3)); transition: 0.3s; }
+    .hero-brand-text { font-family: var(--font-heading); font-size: clamp(32px, 5vw, 48px); letter-spacing: 6px; margin-bottom: 10px; color: var(--text-light); text-transform: uppercase; font-weight: 600; transition: color 0.3s ease; }
+    #tagline { margin-bottom: 30px; max-width: 600px; opacity: 0.9; font-size: 16px; }
     section { padding: 80px 20px; max-width: 1100px; margin: auto; }
     h2 { text-align: center; font-size: 34px; margin-bottom: 40px; font-weight: 600; }
-
-    /* PRODUCT */
     .product { display: flex; flex-direction: column; align-items: center; gap: 20px; }
     .swiper { width: 220px; height: 420px; overflow: hidden; position: relative; }
     .slides { display: flex; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -133,16 +79,23 @@
     .slide img { max-height: 100%; }
     .edition { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; opacity: .9; margin-top: 10px; }
     .product-desc { text-align: center; max-width: 600px; min-height: 5em; font-size: 15px; }
-
-    /* RECIPES */
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
     .card { background: var(--card); padding: 30px 20px; text-align: center; border: 1px solid rgba(255,255,255,0.12); border-radius: 15px; transition: 0.3s; }
     .card:hover { transform: translateY(-5px); border-color: var(--accent); }
     .card-img { width: 60px; height: 60px; margin: 0 auto 20px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
     .card p { font-size: 15px; }
-
     .snow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
     footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
+    
+    /* Статус повідомлення (для JS) */
+    .status-message {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 14px;
+      height: 20px;
+    }
+    .status-message.success { color: #4BB543; }
+    .status-message.error { color: #ff3333; }
   </style>
 </head>
 <body>
@@ -158,12 +111,12 @@
   <div class="controls">
     <button class="btn active" id="uaBtn">UA</button>
     <button class="btn" id="enBtn">EN</button>
+    <button class="btn contact-trigger" id="contactBtn">ЗВʼЯЗОК</button>
     <div class="theme-switch-wrapper">
       <label class="theme-switch" for="checkbox">
         <input type="checkbox" id="checkbox" />
         <div class="slider">
-          <svg class="icon icon-sun" version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve"><g>	<g>		<path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M32.003,16.003c-8.837,0-16.001,7.165-16.001,16.001			s7.165,16.001,16.001,16.001s16.001-7.164,16.001-16.001S40.84,16.003,32.003,16.003z M32.003,40.006			c-4.418,0-8.001-3.587-8.001-8.001c0-4.422,3.583-8.001,8.001-8.001s8.001,3.579,8.001,8.001			C40.004,36.419,36.421,40.006,32.003,40.006z"/>		<path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M12.001,31.997c0-2.211-1.789-4-4-4H4c-2.211,0-4,1.789-4,4			s1.789,4,4,4h4C10.212,35.997,12.001,34.208,12.001,31.997z"/>		<path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M12.204,46.139l-2.832,2.829c-1.563,1.562-1.563,4.094,0,5.656			c1.562,1.562,4.094,1.562,5.657,0l2.833-2.828c1.562-1.562,1.562-4.095,0-5.657C16.298,44.576,13.767,44.576,12.204,46.139z"/>		<path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M32.003,51.999c-2.211,0-4,1.789-4,4V60c0,2.211,1.789,4,4,4			s4-1.789,4-4l-0.004-4.001C36.003,53.788,34.21,51.999,32.003,51.999z"/>		<path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M51.798,46.139c-1.559-1.562-4.091-1.562-5.653,0			s-1.562,4.095,0,5.657l2.829,2.828c1.562,1.57,4.094,1.562,5.656,0s1.566-4.094,0-5.656L51.798,46.139z"/>		<path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M60.006,27.997l-4.009,0.008			c-2.203-0.008-3.992,1.781-3.992,3.992c-0.008,2.211,1.789,4,3.992,4h4.001c2.219,0.008,4-1.789,4-4			C64.002,29.786,62.217,27.997,60.006,27.997z"/>		<path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M51.798,17.855l2.828-2.829c1.574-1.562,1.562-4.094,0-5.657			c-1.559-1.563-4.09-1.563-5.652,0l-2.829,2.836c-1.562,1.555-1.562,4.086,0,5.649C47.699,19.426,50.239,19.418,51.798,17.855z"/>		<path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M32.003,11.995c2.207,0.016,4-1.789,4-3.992v-4			c0-2.219-1.789-4-4-4c-2.211-0.008-4,1.781-4,3.993l0.008,4.008C28.003,10.206,29.792,11.995,32.003,11.995z"/>		<path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M12.212,17.855c1.555,1.562,4.079,1.562,5.646-0.008			c1.574-1.547,1.566-4.086,0.008-5.649L15.037,9.37c-1.57-1.571-4.094-1.555-5.657,0c-1.575,1.562-1.575,4.094-0.012,5.657			L12.212,17.855z"/>	</g>	<path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M39.996,31.997c0-4.422-3.583-8.001-8.001-8.001		s-8.001,3.579-8.001,8.001c0,4.414,3.583,8.001,8.001,8.001S39.996,36.411,39.996,31.997z"/></g></svg>
-          
+          <svg class="icon icon-sun" version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" enable-background="new 0 0 64 64"><g><g><path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M32.003,16.003c-8.837,0-16.001,7.165-16.001,16.001s7.165,16.001,16.001,16.001s16.001-7.164,16.001-16.001S40.84,16.003,32.003,16.003z M32.003,40.006c-4.418,0-8.001-3.587-8.001-8.001c0-4.422,3.583-8.001,8.001-8.001s8.001,3.579,8.001,8.001C40.004,36.419,36.421,40.006,32.003,40.006z"/><path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M12.001,31.997c0-2.211-1.789-4-4-4H4c-2.211,0-4,1.789-4,4s1.789,4,4,4h4C10.212,35.997,12.001,34.208,12.001,31.997z"/><path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M12.204,46.139l-2.832,2.829c-1.563,1.562-1.563,4.094,0,5.656c1.562,1.562,4.094,1.562,5.657,0l2.833-2.828c1.562-1.562,1.562-4.095,0-5.657C16.298,44.576,13.767,44.576,12.204,46.139z"/><path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M32.003,51.999c-2.211,0-4,1.789-4,4V60c0,2.211,1.789,4,4,4s4-1.789,4-4l-0.004-4.001C36.003,53.788,34.21,51.999,32.003,51.999z"/><path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M51.798,46.139c-1.559-1.562-4.091-1.562-5.653,0s-1.562,4.095,0,5.657l2.829,2.828c1.562,1.57,4.094,1.562,5.656,0s1.566-4.094,0-5.656L51.798,46.139z"/><path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M60.006,27.997l-4.009,0.008c-2.203-0.008-3.992,1.781-3.992,3.992c-0.008,2.211,1.789,4,3.992,4h4.001c2.219,0.008,4-1.789,4-4C64.002,29.786,62.217,27.997,60.006,27.997z"/><path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M51.798,17.855l2.828-2.829c1.574-1.562,1.562-4.094,0-5.657c-1.559-1.563-4.09-1.563-5.652,0l-2.829,2.836c-1.562,1.555-1.562,4.086,0,5.649C47.699,19.426,50.239,19.418,51.798,17.855z"/><path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M32.003,11.995c2.207,0.016,4-1.789,4-3.992v-4c0-2.219-1.789-4-4-4c-2.211-0.008-4,1.781-4,3.993l0.008,4.008C28.003,10.206,29.792,11.995,32.003,11.995z"/><path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M12.212,17.855c1.555,1.562,4.079,1.562,5.646-0.008c1.574-1.547,1.566-4.086,0.008-5.649L15.037,9.37c-1.57-1.571-4.094-1.555-5.657,0c-1.575,1.562-1.575,4.094-0.012,5.657L12.212,17.855z"/></g><path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M39.996,31.997c0-4.422-3.583-8.001-8.001-8.001s-8.001,3.579-8.001,8.001c0,4.414,3.583,8.001,8.001,8.001S39.996,36.411,39.996,31.997z"/></g></svg>
           <svg class="icon icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path opacity="0.5" d="M22 12.0004C22 17.5232 17.5228 22.0004 12 22.0004C10.8358 22.0004 9.71801 21.8014 8.67887 21.4357C8.24138 20.3772 8 19.217 8 18.0004C8 15.7792 8.80467 13.7459 10.1384 12.1762C11.31 13.8818 13.2744 15.0004 15.5 15.0004C17.8615 15.0004 19.9289 13.741 21.0672 11.8572C21.3065 11.4612 22 11.5377 22 12.0004Z"/>
             <path d="M2 12C2 16.3586 4.78852 20.0659 8.67887 21.4353C8.24138 20.3768 8 19.2166 8 18C8 15.7788 8.80467 13.7455 10.1384 12.1758C9.42027 11.1303 9 9.86422 9 8.5C9 6.13845 10.2594 4.07105 12.1432 2.93276C12.5392 2.69347 12.4627 2 12 2C6.47715 2 2 6.47715 2 12Z"/>
@@ -175,12 +128,39 @@
   </div>
 </header>
 
+<div id="contactModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2 style="margin-top:0; margin-bottom:20px;">Напишіть нам</h2>
+    
+    <form id="ajaxForm" action="https://formspree.io/f/mqezzvwz" method="POST">
+      <label for="type">Тема звернення</label>
+      <select id="type" name="type">
+        <option value="Замовлення">Замовлення продукту</option>
+        <option value="Питання">Запитання</option>
+        <option value="Співпраця">Співпраця</option>
+      </select>
+
+      <label for="name">Ваше ім'я</label>
+      <input type="text" id="name" name="name" required placeholder="Олександр">
+
+      <label for="email">Email або Telegram</label>
+      <input type="text" id="email" name="contact" required placeholder="@username або email">
+
+      <label for="message">Повідомлення</label>
+      <textarea id="message" name="message" rows="4" required placeholder="Я хочу замовити..."></textarea>
+
+      <button type="submit" class="submit-btn">Надіслати</button>
+      <div class="status-message" id="statusMessage"></div>
+    </form>
+  </div>
+</div>
+
 <div class="hero">
   <img src="logo.png" alt="Logo" class="logo-img">
   <div class="hero-brand-text">BRAND NAME</div>
-  
   <p id="tagline" style="margin-bottom: 30px;"></p>
-  <a href="#product" class="cta" id="cta"></a>
+  <button class="cta contact-trigger" style="border-radius:50px;">ЗАМОВИТИ ЗАРАЗ</button>
 </div>
 
 <section id="product">
@@ -201,18 +181,9 @@
 <section>
   <h2 id="drinkTitle"></h2>
   <div class="grid">
-    <div class="card">
-      <div class="card-img"><img src="icon1.png" alt="" onerror="this.style.display='none'"></div>
-      <p id="drink1"></p>
-    </div>
-    <div class="card">
-      <div class="card-img"><img src="icon1.png" alt="" onerror="this.style.display='none'"></div>
-      <p id="drink2"></p>
-    </div>
-    <div class="card">
-      <div class="card-img"><img src="icon1.png" alt="" onerror="this.style.display='none'"></div>
-      <p id="drink3"></p>
-    </div>
+    <div class="card"><div class="card-img"><img src="icon1.png" alt="" onerror="this.style.display='none'"></div><p id="drink1"></p></div>
+    <div class="card"><div class="card-img"><img src="icon1.png" alt="" onerror="this.style.display='none'"></div><p id="drink2"></p></div>
+    <div class="card"><div class="card-img"><img src="icon1.png" alt="" onerror="this.style.display='none'"></div><p id="drink3"></p></div>
   </div>
 </section>
 
@@ -229,7 +200,6 @@
     window.scrollTo({top: 0, left: 0, behavior: 'auto'});
     if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
   }
-
   window.onload = forceScrollTop;
   window.onbeforeunload = forceScrollTop;
   document.addEventListener('DOMContentLoaded', forceScrollTop);
@@ -237,32 +207,20 @@
   const copy = {
     ua: {
       tagline: "Магія дикої природи у кожній краплі. Крафтовий медовий еліксир, створений за стародавніми рецептами для сучасних ритуалів.", 
-      cta: "ДІЗНАТИСЯ БІЛЬШЕ",
-      productTitle: "Колекції", 
-      drinkTitle: "Мистецтво споживання", 
-      change: "Змінити смак",
-      
+      productTitle: "Колекції", drinkTitle: "Мистецтво споживання", change: "Змінити смак",
       winter: "Зимова казка у пляшці. Глибокий смак темного меду поєднаний з зігріваючою корицею, бодяном та пікантним коренем імбиру. Ідеальний компаньйон для затишних вечорів, гарячого чаю або авторського глінтвейну.",
       summer: "Подих літнього вітру. Легкий та освіжаючий букет з лугових трав, прохолодної м'яти та соковитого лайма на основі ніжного квіткового меду. Додає вишуканості лимонадам та легким аперитивам у спекотний день.",
-      
       editionSuffix: "ВЕРСІЯ",
-      
       drink1: "CLASSIC TONIC: Наповніть келих льодом. Додайте 30 мл сиропу та 150 мл якісного тоніка. Прикрасьте гілочкою розмарину.",
       drink2: "MOON SPRITZ: Змішайте 40 мл сиропу з 60 мл ігристого вина (Prosecco) та сплешем газованої води. Подавайте зі слайсом апельсина.",
       drink3: "NATURE SOUR: У шейкері збийте 30 мл сиропу, 20 мл лимонного соку та лід. Процідіть у охолоджений келих для ідеального безалкогольного коктейлю."
     },
     en: {
       tagline: "Magic of wild nature in every drop. Craft honey elixir created from ancient recipes for modern rituals.", 
-      cta: "LEARN MORE",
-      productTitle: "Collections", 
-      drinkTitle: "Art of Drinking", 
-      change: "Change Flavor",
-      
+      productTitle: "Collections", drinkTitle: "Art of Drinking", change: "Change Flavor",
       winter: "Winter fairy tale in a bottle. The deep taste of dark honey combined with warming cinnamon, star anise, and spicy ginger root. The perfect companion for cozy evenings, hot tea, or signature mulled wine.",
       summer: "Breath of the summer wind. Light and refreshing bouquet of meadow herbs, cool mint, and juicy lime based on delicate floral honey. Adds sophistication to lemonades and light aperitifs on a hot day.",
-      
       editionSuffix: "EDITION",
-      
       drink1: "CLASSIC TONIC: Fill a glass with ice. Add 30 ml of syrup and 150 ml of premium tonic water. Garnish with a sprig of rosemary.",
       drink2: "MOON SPRITZ: Mix 40 ml of syrup with 60 ml of sparkling wine (Prosecco) and a splash of soda water. Serve with an orange slice.",
       drink3: "NATURE SOUR: Shake 30 ml of syrup, 20 ml of lemon juice, and ice in a shaker. Strain into a chilled glass for the perfect non-alcoholic cocktail."
@@ -277,13 +235,13 @@
   const desc = document.getElementById('productDesc');
   const changeBtn = document.getElementById('changeBtn');
   const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+  const uaBtn = document.getElementById('uaBtn');
+  const enBtn = document.getElementById('enBtn');
 
   function updateProduct() {
     slides.style.transform = `translateX(-${index * 100}%)`;
     const key = index === 0 ? 'winter' : 'summer';
-    
     document.body.setAttribute('data-product', index === 0 ? 'winter' : 'summer');
-    
     const editionName = lang === 'ua' ? (index === 0 ? 'ЗИМОВА' : 'ЛІТНЯ') : (index === 0 ? 'WINTER' : 'SUMMER');
     edition.innerText = `${editionName} ${copy[lang].editionSuffix}`;
     desc.innerText = copy[lang][key];
@@ -297,26 +255,90 @@
 
   function applyLang() {
     document.getElementById('tagline').innerText = copy[lang].tagline;
-    document.getElementById('cta').innerText = copy[lang].cta;
     document.getElementById('productTitle').innerText = copy[lang].productTitle;
     document.getElementById('drinkTitle').innerText = copy[lang].drinkTitle;
     document.getElementById('changeBtn').innerText = copy[lang].change;
     document.getElementById('drink1').innerText = copy[lang].drink1;
     document.getElementById('drink2').innerText = copy[lang].drink2;
     document.getElementById('drink3').innerText = copy[lang].drink3;
+    const heroBtn = document.querySelector('.hero .cta');
+    if(heroBtn) heroBtn.innerText = (lang === 'ua' ? 'ЗАМОВИТИ ЗАРАЗ' : 'ORDER NOW');
+    const headerBtn = document.getElementById('contactBtn');
+    if(headerBtn) headerBtn.innerText = (lang === 'ua' ? 'ЗВʼЯЗОК' : 'CONTACT');
     updateProduct();
   }
 
   uaBtn.onclick = () => { lang = 'ua'; uaBtn.classList.add('active'); enBtn.classList.remove('active'); applyLang(); };
   enBtn.onclick = () => { lang = 'en'; enBtn.classList.add('active'); uaBtn.classList.remove('active'); applyLang(); };
 
-  // ПРИМУСОВЕ СКИДАННЯ ТЕМИ ПРИ СТАРТІ (FORCE DARK MODE)
+  // --- ЛОГІКА МОДАЛЬНОГО ВІКНА ---
+  const modal = document.getElementById("contactModal");
+  const closeSpan = document.querySelector(".close");
+  const triggers = document.querySelectorAll('.contact-trigger');
+
+  triggers.forEach(btn => {
+      btn.addEventListener('click', () => {
+          modal.classList.add('show');
+      });
+  });
+
+  function closeModal() {
+      modal.classList.remove('show');
+  }
+
+  closeSpan.onclick = closeModal;
+  window.onclick = function(event) { if (event.target == modal) closeModal(); }
+
+  // --- AJAX ВІДПРАВКА ФОРМИ (Щоб не було редіректу Formspree) ---
+  const form = document.getElementById("ajaxForm");
+  const statusMsg = document.getElementById("statusMessage");
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    const submitBtn = form.querySelector('.submit-btn');
+    const originalText = submitBtn.innerText;
+    
+    submitBtn.innerText = "Відправляємо...";
+    submitBtn.disabled = true;
+
+    fetch(event.target.action, {
+      method: form.method,
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    }).then(response => {
+      if (response.ok) {
+        statusMsg.innerHTML = "Дякуємо! Ваше повідомлення надіслано.";
+        statusMsg.className = "status-message success";
+        form.reset();
+        setTimeout(() => { closeModal(); statusMsg.innerHTML=""; }, 2000);
+      } else {
+        response.json().then(data => {
+          if (Object.hasOwn(data, 'errors')) {
+            statusMsg.innerHTML = data["errors"].map(error => error["message"]).join(", ");
+          } else {
+            statusMsg.innerHTML = "Сталася помилка. Спробуйте ще раз.";
+          }
+          statusMsg.className = "status-message error";
+        })
+      }
+    }).catch(error => {
+      statusMsg.innerHTML = "Помилка мережі. Перевірте з'єднання.";
+      statusMsg.className = "status-message error";
+    }).finally(() => {
+        submitBtn.innerText = originalText;
+        submitBtn.disabled = false;
+    });
+  }
+  form.addEventListener("submit", handleSubmit);
+
+  // --- СТАРТ ---
   toggleSwitch.checked = false;
   document.body.classList.remove('light');
   document.body.setAttribute('data-product', 'winter');
-
   applyLang();
 
+  // --- СНІГ ---
   const canvas = document.querySelector('.snow');
   const ctx = canvas.getContext('2d');
   let w, h;
