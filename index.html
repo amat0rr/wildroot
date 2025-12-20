@@ -71,26 +71,11 @@
       transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px;
       display: inline-block; text-decoration: none; font-family: var(--font-body); font-weight: 500;
     }
-    .btn.active, .btn:hover, .cta:hover, .change-btn:hover { background: var(--accent); color: white; }
+    .btn:hover, .cta:hover, .change-btn:hover { background: var(--accent); color: white; }
 
-    /* КНОПКА ЗВ'ЯЗКУ */
-    #contactBtn {
-      background-color: var(--accent); color: #fff; border: 1px solid var(--accent);
-      padding: 8px 20px; font-weight: 600;
-      box-shadow: 0 0 15px rgba(212, 160, 23, 0.4); animation: pulse 3s infinite;
-    }
-    #contactBtn:hover {
-      background-color: #b08d28; border-color: #b08d28;
-      transform: scale(1.05); box-shadow: 0 0 20px rgba(212, 160, 23, 0.6);
-    }
-    body.light #contactBtn { color: #fff; }
-    @keyframes pulse {
-        0% { box-shadow: 0 0 0 0 rgba(212, 160, 23, 0.4); }
-        70% { box-shadow: 0 0 0 10px rgba(212, 160, 23, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(212, 160, 23, 0); }
-    }
+    /* --- ПЛАВАЮЧІ ЕЛЕМЕНТИ (Fixed) --- */
 
-    /* ПЛАВАЮЧА КНОПКА МОВИ */
+    /* 1. КНОПКА МОВИ (ЗПРАВА) */
     .floating-lang {
         position: fixed; bottom: 30px; right: 30px; z-index: 90;
         background-color: rgba(15, 42, 29, 0.8); backdrop-filter: blur(8px);
@@ -98,21 +83,75 @@
         display: flex; align-items: center; gap: 10px; cursor: pointer;
         transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
-    .floating-lang:hover { transform: translateY(-3px); background-color: var(--accent); }
     .floating-lang span { color: var(--accent); font-family: var(--font-heading); font-weight: 600; font-size: 14px; letter-spacing: 1px; }
-    .floating-lang:hover span { color: white; }
+    
     .flag-circle { width: 32px; height: 32px; border-radius: 50%; overflow: hidden; border: 2px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; }
     .flag-circle svg { width: 100%; height: 100%; object-fit: cover; transform: scale(1.35); transform-origin: center; }
+
+    /* 2. КНОПКА ЗВ'ЯЗКУ (ЗЛІВА) - КОНВЕРТ */
+    .floating-contact {
+        position: fixed; bottom: 30px; left: 30px; z-index: 90;
+        width: 50px; height: 50px;
+        border-radius: 50%;
+        background-color: rgba(15, 42, 29, 0.8);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--accent);
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 15px rgba(212, 160, 23, 0.4); 
+        animation: pulse 3s infinite;
+        padding: 0;
+    }
+    .floating-contact svg {
+        width: 24px; height: 24px;
+        fill: var(--accent);
+        transition: fill 0.3s ease;
+    }
+
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(212, 160, 23, 0.4); }
+        70% { box-shadow: 0 0 0 10px rgba(212, 160, 23, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(212, 160, 23, 0); }
+    }
+
+    /* Адаптація для світлої теми */
     body.light .floating-lang { background-color: rgba(245, 241, 224, 0.8); }
+    body.light .floating-contact { background-color: rgba(245, 241, 224, 0.8); }
+
+    /* HOVER ефекти тільки для ПК (щоб не залипало на мобільному) */
+    @media (hover: hover) {
+        .floating-lang:hover { transform: translateY(-3px); background-color: var(--accent); }
+        .floating-lang:hover span { color: white; }
+        
+        .floating-contact:hover { transform: translateY(-3px) scale(1.05); background-color: var(--accent); }
+        .floating-contact:hover svg { fill: white; }
+    }
 
     /* SWITCH */
     .theme-switch-wrapper { display: flex; align-items: center; margin-left: 5px; }
     .theme-switch { display: inline-block; height: 30px; position: relative; width: 56px; }
     .theme-switch input { display: none; }
-    .slider { background-color: #1a1a1a; bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 34px; display: flex; align-items: center; justify-content: space-between; padding: 0 6px; border: 1px solid rgba(255,255,255,0.15); }
+    
+    .slider { 
+        background-color: #1a1a1a; bottom: 0; cursor: pointer; left: 0; 
+        position: absolute; right: 0; top: 0; transition: .4s; 
+        border-radius: 34px; display: flex; align-items: center; justify-content: space-between; 
+        padding: 0 6px; 
+        border: 1px solid var(--accent);
+    }
+    
     .icon { width: 16px; height: 16px; transition: .4s; z-index: 1; }
     .icon-sun { opacity: 0; transform: scale(0.5); } 
+    
     .icon-moon { opacity: 1; filter: drop-shadow(0 0 3px rgba(255,255,255,0.6)); } 
+    
+    /* ВИПРАВЛЕНО: Місяць тепер білий */
+    .icon-moon path { 
+        opacity: 1 !important; 
+        fill: #ffffff; /* Додано білий колір */
+    }
+    
     .knob { background-color: #fff; bottom: 3px; height: 22px; left: 4px; position: absolute; transition: .4s; width: 22px; border-radius: 50%; z-index: 2; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
     input:checked + .slider { background-color: var(--accent); border-color: transparent; }
     input:checked + .slider .knob { transform: translateX(26px); }
@@ -217,15 +256,10 @@
         .bottle-card.summer:not(.active) { transform: translate(-10%, -50%) scale(0.7); }
     }
 
-    /* --- ЦЕНТРУВАННЯ ІНФОРМАЦІЇ ПРО ПРОДУКТ (НОВЕ) --- */
+    /* CENTERING */
     .product-info {
-        display: flex;
-        flex-direction: column;
-        align-items: center; /* Центрує елементи по горизонталі */
-        gap: 20px;
-        text-align: center;
-        max-width: 800px;
-        margin: 0 auto;
+        display: flex; flex-direction: column; align-items: center; 
+        gap: 20px; text-align: center; max-width: 800px; margin: 0 auto;
     }
 
     .product { display: flex; flex-direction: column; align-items: center; gap: 20px; }
@@ -255,15 +289,13 @@
   </a>
 
   <div class="controls">
-    <button class="btn contact-trigger" id="contactBtn">ЗВʼЯЗОК</button>
-
     <div class="theme-switch-wrapper">
       <label class="theme-switch" for="checkbox">
         <input type="checkbox" id="checkbox" />
         <div class="slider">
           <svg class="icon icon-sun" version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" enable-background="new 0 0 64 64"><g><g><path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M32.003,16.003c-8.837,0-16.001,7.165-16.001,16.001s7.165,16.001,16.001,16.001s16.001-7.164,16.001-16.001S40.84,16.003,32.003,16.003z M32.003,40.006c-4.418,0-8.001-3.587-8.001-8.001c0-4.422,3.583-8.001,8.001-8.001s8.001,3.579,8.001,8.001C40.004,36.419,36.421,40.006,32.003,40.006z"/><path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M12.001,31.997c0-2.211-1.789-4-4-4H4c-2.211,0-4,1.789-4,4s1.789,4,4,4h4C10.212,35.997,12.001,34.208,12.001,31.997z"/><path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M12.204,46.139l-2.832,2.829c-1.563,1.562-1.563,4.094,0,5.656c1.562,1.562,4.094,1.562,5.657,0l2.833-2.828c1.562-1.562,1.562-4.095,0-5.657C16.298,44.576,13.767,44.576,12.204,46.139z"/><path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M32.003,51.999c-2.211,0-4,1.789-4,4V60c0,2.211,1.789,4,4,4s4-1.789,4-4l-0.004-4.001C36.003,53.788,34.21,51.999,32.003,51.999z"/><path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M51.798,46.139c-1.559-1.562-4.091-1.562-5.653,0s-1.562,4.095,0,5.657l2.829,2.828c1.562,1.57,4.094,1.562,5.656,0s1.566-4.094,0-5.656L51.798,46.139z"/><path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M60.006,27.997l-4.009,0.008c-2.203-0.008-3.992,1.781-3.992,3.992c-0.008,2.211,1.789,4,3.992,4h4.001c2.219,0.008,4-1.789,4-4C64.002,29.786,62.217,27.997,60.006,27.997z"/><path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M51.798,17.855l2.828-2.829c1.574-1.562,1.562-4.094,0-5.657c-1.559-1.563-4.09-1.563-5.652,0l-2.829,2.836c-1.562,1.555-1.562,4.086,0,5.649C47.699,19.426,50.239,19.418,51.798,17.855z"/><path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M32.003,11.995c2.207,0.016,4-1.789,4-3.992v-4c0-2.219-1.789-4-4-4c-2.211-0.008-4,1.781-4,3.993l0.008,4.008C28.003,10.206,29.792,11.995,32.003,11.995z"/><path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M12.212,17.855c1.555,1.562,4.079,1.562,5.646-0.008c1.574-1.547,1.566-4.086,0.008-5.649L15.037,9.37c-1.57-1.571-4.094-1.555-5.657,0c-1.575,1.562-1.575,4.094-0.012,5.657L12.212,17.855z"/></g><path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M39.996,31.997c0-4.422-3.583-8.001-8.001-8.001s-8.001,3.579-8.001,8.001c0,4.414,3.583,8.001,8.001,8.001S39.996,36.411,39.996,31.997z"/></g></svg>
           <svg class="icon icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path opacity="0.5" d="M22 12.0004C22 17.5232 17.5228 22.0004 12 22.0004C10.8358 22.0004 9.71801 21.8014 8.67887 21.4357C8.24138 20.3772 8 19.217 8 18.0004C8 15.7792 8.80467 13.7459 10.1384 12.1762C11.31 13.8818 13.2744 15.0004 15.5 15.0004C17.8615 15.0004 19.9289 13.741 21.0672 11.8572C21.3065 11.4612 22 11.5377 22 12.0004Z"/>
+            <path d="M22 12.0004C22 17.5232 17.5228 22.0004 12 22.0004C10.8358 22.0004 9.71801 21.8014 8.67887 21.4357C8.24138 20.3772 8 19.217 8 18.0004C8 15.7792 8.80467 13.7459 10.1384 12.1762C11.31 13.8818 13.2744 15.0004 15.5 15.0004C17.8615 15.0004 19.9289 13.741 21.0672 11.8572C21.3065 11.4612 22 11.5377 22 12.0004Z"/>
             <path d="M2 12C2 16.3586 4.78852 20.0659 8.67887 21.4353C8.24138 20.3768 8 19.2166 8 18C8 15.7788 8.80467 13.7455 10.1384 12.1758C9.42027 11.1303 9 9.86422 9 8.5C9 6.13845 10.2594 4.07105 12.1432 2.93276C12.5392 2.69347 12.4627 2 12 2C6.47715 2 2 6.47715 2 12Z"/>
           </svg>
           <div class="knob"></div>
@@ -277,6 +309,12 @@
     <div class="flag-circle" id="langFlag"></div>
     <span id="langText">EN</span>
 </div>
+
+<button class="floating-contact contact-trigger" id="contactBtn" aria-label="Зв'язатись з нами">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 4H4C2.9 4 2.01 4.9 2.01 6L2 18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z"/>
+    </svg>
+</button>
 
 <div id="contactModal" class="modal">
   <div class="modal-content">
@@ -359,7 +397,7 @@
   const copy = {
     ua: {
       tagline: "Магія дикої природи у кожній краплі. Крафтовий медовий еліксир, створений за стародавніми рецептами для сучасних ритуалів.", 
-      heroBtn: "ДІЗНАТИСЯ БІЛЬШЕ", contactBtn: "ЗВʼЯЗОК",
+      heroBtn: "ДІЗНАТИСЯ БІЛЬШЕ",
       productTitle: "Колекції", drinkTitle: "Мистецтво споживання", change: "Змінити смак",
       winter: "Зимова казка у пляшці. Глибокий смак темного меду поєднаний з зігріваючою корицею, бодяном та пікантним коренем імбиру. Ідеальний компаньйон для затишних вечорів, гарячого чаю або авторського глінтвейну.",
       summer: "Подих літнього вітру. Легкий та освіжаючий букет з лугових трав, прохолодної м'яти та соковитого лайма на основі ніжного квіткового меду. Додає вишуканості лимонадам та легким аперитивам у спекотний день.",
@@ -370,7 +408,7 @@
     },
     en: {
       tagline: "Magic of wild nature in every drop. Craft honey elixir created from ancient recipes for modern rituals.", 
-      heroBtn: "LEARN MORE", contactBtn: "CONTACT",
+      heroBtn: "LEARN MORE",
       productTitle: "Collections", drinkTitle: "Art of Drinking", change: "Change Flavor",
       winter: "Winter fairy tale in a bottle. The deep taste of dark honey combined with warming cinnamon, star anise, and spicy ginger root. The perfect companion for cozy evenings, hot tea, or signature mulled wine.",
       summer: "Breath of the summer wind. Light and refreshing bouquet of meadow herbs, cool mint, and juicy lime based on delicate floral honey. Adds sophistication to lemonades and light aperitifs on a hot day.",
@@ -437,9 +475,6 @@
     
     const heroBtn = document.getElementById('heroBtn');
     if(heroBtn) heroBtn.innerText = copy[lang].heroBtn;
-    
-    const headerBtn = document.getElementById('contactBtn');
-    if(headerBtn) headerBtn.innerText = copy[lang].contactBtn;
 
     if (lang === 'ua') { langFlag.innerHTML = flagUK; langText.innerText = "EN"; } 
     else { langFlag.innerHTML = flagUA; langText.innerText = "UA"; }
