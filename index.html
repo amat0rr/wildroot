@@ -3,45 +3,109 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BRAND NAME</title>
+  <title>BRAND NAME — Herbal Honey Syrup</title>
   <link rel="icon" type="image/png" href="logo.png">
 
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=STIX+Two+Text:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
-    /* ВСТАВТЕ СЮДИ ВЕСЬ ПОПЕРЕДНІЙ CSS БЕЗ ЗМІН */
-    /* Я його скоротив тут, щоб не займати місце, бо він не змінюється */
     :root {
+      /* --- КОЛЬОРИ --- */
       --bg-winter-dark: #0F2A1D; --bg-summer-dark: #2D4A2F; --bg-summer-light: #F5F1E0; --bg-winter-light: #E0DCC5;
       --text-light: #F5F1E0; --text-dark: #0F2A1D; --accent: #D4A017; --card: rgba(255,255,255,0.08);
       --font-body: 'IBM Plex Sans', sans-serif; --font-heading: 'STIX Two Text', serif;
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { scroll-behavior: auto !important; }
-    body { font-family: var(--font-body); background-color: var(--bg-winter-dark); color: var(--text-light); line-height: 1.6; overflow-x: hidden; transition: background-color 0.6s ease, color 0.3s ease; }
+    
+    html { scroll-behavior: smooth; }
+    body { scroll-behavior: auto; }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-winter-dark); 
+      color: var(--text-light);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background-color 0.6s ease, color 0.3s ease;
+    }
+
+    /* --- ЛОГІКА ТЕМ --- */
     body[data-product="winter"] { background-color: var(--bg-winter-dark); }
     body[data-product="summer"] { background-color: var(--bg-summer-dark); }
     body.light[data-product="winter"] { background-color: var(--bg-winter-light) !important; }
     body.light[data-product="summer"] { background-color: var(--bg-summer-light) !important; }
+
     body.light { color: var(--text-dark); }
     body.light .card { border-color: rgba(0,0,0,0.1); background: rgba(0,0,0,0.05); }
     body.light .socials a { color: var(--text-dark) !important; }
     body.light header { background: rgba(245, 241, 224, 0.95); }
     body.light .brand-text, body.light .hero-brand-text { color: var(--text-dark); }
     body.light .logo-img, body.light .brand-img { filter: invert(1) brightness(0.2); }
-    body.light input, body.light select, body.light textarea { background: rgba(0,0,0,0.05); border-bottom: 1px solid rgba(0,0,0,0.2); color: var(--text-dark); }
+    body.light input, body.light select, body.light textarea {
+        background: rgba(0,0,0,0.05); border-bottom: 1px solid rgba(0,0,0,0.2); color: var(--text-dark);
+    }
+
     h1, h2, h3, .edition { font-family: var(--font-heading); }
-    header { position: fixed; top: 0; left: 0; width: 100%; z-index: 50; display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; background: rgba(15, 42, 29, 0.95); backdrop-filter: blur(8px); }
+
+    /* HEADER */
+    header {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 50;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 20px; background: rgba(15, 42, 29, 0.95); backdrop-filter: blur(8px);
+    }
     .brand-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
     .brand-img { height: 32px; width: auto; display: block; transition: 0.3s; }
-    .brand-text { font-family: var(--font-heading); font-size: 20px; font-weight: 600; letter-spacing: 2px; color: var(--text-light); text-transform: uppercase; transition: color 0.3s ease; }
+    .brand-text {
+      font-family: var(--font-heading); font-size: 20px; font-weight: 600;
+      letter-spacing: 2px; color: var(--text-light); text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+
     .controls { display: flex; align-items: center; gap: 8px; }
-    .btn, .cta, .change-btn, .submit-btn { border: 1px solid var(--accent); color: var(--accent); background: transparent; padding: 8px 16px; font-size: 11px; cursor: pointer; border-radius: 50px; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; display: inline-block; text-decoration: none; font-family: var(--font-body); font-weight: 500; }
+
+    /* BUTTONS */
+    .btn, .cta, .change-btn, .submit-btn {
+      border: 1px solid var(--accent); color: var(--accent); background: transparent;
+      padding: 8px 16px; font-size: 11px; cursor: pointer; border-radius: 50px;
+      transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px;
+      display: inline-block; text-decoration: none; font-family: var(--font-body); font-weight: 500;
+    }
     .btn.active, .btn:hover, .cta:hover, .change-btn:hover { background: var(--accent); color: white; }
-    #contactBtn { background-color: var(--accent); color: #fff; border: 1px solid var(--accent); padding: 8px 20px; font-weight: 600; box-shadow: 0 0 15px rgba(212, 160, 23, 0.4); animation: pulse 3s infinite; }
-    #contactBtn:hover { background-color: #b08d28; border-color: #b08d28; transform: scale(1.05); box-shadow: 0 0 20px rgba(212, 160, 23, 0.6); }
+
+    /* КНОПКА ЗВ'ЯЗКУ */
+    #contactBtn {
+      background-color: var(--accent); color: #fff; border: 1px solid var(--accent);
+      padding: 8px 20px; font-weight: 600;
+      box-shadow: 0 0 15px rgba(212, 160, 23, 0.4); animation: pulse 3s infinite;
+    }
+    #contactBtn:hover {
+      background-color: #b08d28; border-color: #b08d28;
+      transform: scale(1.05); box-shadow: 0 0 20px rgba(212, 160, 23, 0.6);
+    }
     body.light #contactBtn { color: #fff; }
-    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(212, 160, 23, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(212, 160, 23, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 160, 23, 0); } }
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(212, 160, 23, 0.4); }
+        70% { box-shadow: 0 0 0 10px rgba(212, 160, 23, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(212, 160, 23, 0); }
+    }
+
+    /* ПЛАВАЮЧА КНОПКА МОВИ */
+    .floating-lang {
+        position: fixed; bottom: 30px; right: 30px; z-index: 90;
+        background-color: rgba(15, 42, 29, 0.8); backdrop-filter: blur(8px);
+        border: 1px solid var(--accent); border-radius: 50px; padding: 5px 16px 5px 6px;
+        display: flex; align-items: center; gap: 10px; cursor: pointer;
+        transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    .floating-lang:hover { transform: translateY(-3px); background-color: var(--accent); }
+    .floating-lang span { color: var(--accent); font-family: var(--font-heading); font-weight: 600; font-size: 14px; letter-spacing: 1px; }
+    .floating-lang:hover span { color: white; }
+    .flag-circle { width: 32px; height: 32px; border-radius: 50%; overflow: hidden; border: 2px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; }
+    .flag-circle svg { width: 100%; height: 100%; object-fit: cover; transform: scale(1.35); transform-origin: center; }
+    body.light .floating-lang { background-color: rgba(245, 241, 224, 0.8); }
+
+    /* SWITCH */
     .theme-switch-wrapper { display: flex; align-items: center; margin-left: 5px; }
     .theme-switch { display: inline-block; height: 30px; position: relative; width: 56px; }
     .theme-switch input { display: none; }
@@ -54,31 +118,120 @@
     input:checked + .slider .knob { transform: translateX(26px); }
     input:checked + .slider .icon-sun { opacity: 1; transform: scale(1); }
     input:checked + .slider .icon-moon { opacity: 0; transform: scale(0.5); }
-    .modal { display: flex; align-items: center; justify-content: center; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(5px); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s ease, visibility 0.3s ease; }
+
+    /* MODAL */
+    .modal {
+        display: flex; align-items: center; justify-content: center; position: fixed; z-index: 100;
+        left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
+        opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
     .modal.show { opacity: 1; visibility: visible; pointer-events: auto; }
-    .modal-content { background-color: var(--bg-winter-dark); border: 1px solid var(--accent); padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: var(--text-light); transform: scale(0.95); transition: transform 0.3s ease; }
+    .modal-content {
+        background-color: var(--bg-winter-dark); border: 1px solid var(--accent);
+        padding: 30px; border-radius: 15px; width: 90%; max-width: 400px;
+        position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        color: var(--text-light); transform: scale(0.95); transition: transform 0.3s ease;
+    }
     .modal.show .modal-content { transform: scale(1); }
     body.light .modal-content { background-color: var(--bg-summer-light); color: var(--text-dark); border-color: rgba(0,0,0,0.2); }
     .close { color: var(--accent); float: right; font-size: 28px; font-weight: bold; cursor: pointer; position: absolute; right: 20px; top: 10px; }
+    
     form { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
-    input, select, textarea { width: 100%; padding: 12px; border: none; border-bottom: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); color: inherit; font-family: var(--font-body); font-size: 16px; border-radius: 4px; outline: none; }
+    input, select {
+        width: 100%; padding: 12px; border: none; border-bottom: 1px solid rgba(255,255,255,0.3);
+        background: rgba(255,255,255,0.05); color: inherit; font-family: var(--font-body); font-size: 16px;
+        border-radius: 4px; outline: none;
+    }
+    textarea {
+        width: 100%; padding: 12px; border: none; border-bottom: 1px solid rgba(255,255,255,0.3);
+        background: rgba(255,255,255,0.05); color: inherit; font-family: var(--font-body); font-size: 16px;
+        border-radius: 4px; outline: none;
+        resize: none; min-height: 50px; max-height: 200px; overflow-y: auto;
+    }
     input:focus, textarea:focus { border-bottom-color: var(--accent); }
     label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; }
     .submit-btn { width: 100%; margin-top: 10px; background-color: var(--accent); color: white; border: none; }
     .submit-btn:hover { background-color: #b08d28; }
+
+    /* LAYOUT */
     .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; padding-top: 80px; }
     .logo-img { width: 260px; max-width: 70vw; height: auto; margin-bottom: 10px; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3)); transition: 0.3s; }
     .hero-brand-text { font-family: var(--font-heading); font-size: clamp(32px, 5vw, 48px); letter-spacing: 6px; margin-bottom: 10px; color: var(--text-light); text-transform: uppercase; font-weight: 600; transition: color 0.3s ease; }
     #tagline { margin-bottom: 30px; max-width: 600px; opacity: 0.9; font-size: 16px; }
     section { padding: 80px 20px; max-width: 1100px; margin: auto; }
     h2 { text-align: center; font-size: 34px; margin-bottom: 40px; font-weight: 600; }
+    
+    /* --- 3D PRODUCT STAGE --- */
+    .product-stage-container {
+        width: 100%;
+        height: 450px;
+        position: relative;
+        display: flex; justify-content: center; align-items: center;
+        margin-bottom: 20px;
+        perspective: 1000px;
+    }
+    .bottle-stage {
+        position: relative; width: 300px; height: 100%;
+        display: flex; justify-content: center; align-items: center;
+    }
+    .bottle-card {
+        position: absolute; width: 240px;
+        transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        cursor: pointer;
+        top: 50%; left: 50%;
+        transform-origin: center center;
+    }
+    .bottle-card img {
+        width: 100%; height: auto; display: block;
+        filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+    }
+    /* Active State */
+    .bottle-card.active {
+        z-index: 10;
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 1; filter: none;
+        pointer-events: none;
+    }
+    .bottle-card.active img { animation: float 4s ease-in-out infinite; }
+    
+    /* Inactive States */
+    .bottle-card.winter:not(.active) {
+        z-index: 1;
+        transform: translate(-110%, -50%) scale(0.7) rotate(-5deg);
+        opacity: 0.6; filter: blur(2px) grayscale(40%);
+    }
+    .bottle-card.summer:not(.active) {
+        z-index: 1;
+        transform: translate(10%, -50%) scale(0.7) rotate(5deg);
+        opacity: 0.6; filter: blur(2px) grayscale(40%);
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    @media (max-width: 600px) {
+        .bottle-card { width: 180px; }
+        .bottle-card.winter:not(.active) { transform: translate(-90%, -50%) scale(0.7); }
+        .bottle-card.summer:not(.active) { transform: translate(-10%, -50%) scale(0.7); }
+    }
+
+    /* --- ЦЕНТРУВАННЯ ІНФОРМАЦІЇ ПРО ПРОДУКТ (НОВЕ) --- */
+    .product-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Центрує елементи по горизонталі */
+        gap: 20px;
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
     .product { display: flex; flex-direction: column; align-items: center; gap: 20px; }
-    .swiper { width: 220px; height: 420px; overflow: hidden; position: relative; }
-    .slides { display: flex; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-    .slide { min-width: 220px; height: 420px; display: flex; align-items: center; justify-content: center; }
-    .slide img { max-height: 100%; }
     .edition { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; opacity: .9; margin-top: 10px; }
     .product-desc { text-align: center; max-width: 600px; min-height: 5em; font-size: 15px; }
+    
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
     .card { background: var(--card); padding: 30px 20px; text-align: center; border: 1px solid rgba(255,255,255,0.12); border-radius: 15px; transition: 0.3s; }
     .card:hover { transform: translateY(-5px); border-color: var(--accent); }
@@ -86,14 +239,7 @@
     .card p { font-size: 15px; }
     .snow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
     footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
-    
-    /* Статус повідомлення (для JS) */
-    .status-message {
-      margin-top: 10px;
-      text-align: center;
-      font-size: 14px;
-      height: 20px;
-    }
+    .status-message { margin-top: 10px; text-align: center; font-size: 14px; height: 20px; }
     .status-message.success { color: #4BB543; }
     .status-message.error { color: #ff3333; }
   </style>
@@ -109,9 +255,8 @@
   </a>
 
   <div class="controls">
-    <button class="btn active" id="uaBtn">UA</button>
-    <button class="btn" id="enBtn">EN</button>
     <button class="btn contact-trigger" id="contactBtn">ЗВʼЯЗОК</button>
+
     <div class="theme-switch-wrapper">
       <label class="theme-switch" for="checkbox">
         <input type="checkbox" id="checkbox" />
@@ -128,27 +273,30 @@
   </div>
 </header>
 
+<div id="floatingLang" class="floating-lang">
+    <div class="flag-circle" id="langFlag"></div>
+    <span id="langText">EN</span>
+</div>
+
 <div id="contactModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
     <h2 style="margin-top:0; margin-bottom:20px;">Напишіть нам</h2>
     
-    <form id="ajaxForm" action="https://formspree.io/f/mqezzvwz" method="POST">
+    <form id="ajaxForm" action="https://formspree.io/f/YOUR_ID_HERE" method="POST">
       <label for="type">Тема звернення</label>
       <select id="type" name="type">
         <option value="Замовлення">Замовлення продукту</option>
         <option value="Питання">Запитання</option>
         <option value="Співпраця">Співпраця</option>
       </select>
-
       <label for="name">Ваше ім'я</label>
       <input type="text" id="name" name="name" required placeholder="Олександр">
-
       <label for="email">Email або Telegram</label>
       <input type="text" id="email" name="contact" required placeholder="@username або email">
-
+      
       <label for="message">Повідомлення</label>
-      <textarea id="message" name="message" rows="4" required placeholder="Я хочу замовити..."></textarea>
+      <textarea id="message" name="message" rows="1" required placeholder="Я хочу замовити..."></textarea>
 
       <button type="submit" class="submit-btn">Надіслати</button>
       <div class="status-message" id="statusMessage"></div>
@@ -160,18 +308,25 @@
   <img src="logo.png" alt="Logo" class="logo-img">
   <div class="hero-brand-text">BRAND NAME</div>
   <p id="tagline" style="margin-bottom: 30px;"></p>
-  <button class="cta contact-trigger" style="border-radius:50px;">ЗАМОВИТИ ЗАРАЗ</button>
+  <a href="#product" class="cta" id="heroBtn" style="border-radius:50px; text-decoration: none; display: inline-block;">ДІЗНАТИСЯ БІЛЬШЕ</a>
 </div>
 
 <section id="product">
   <h2 id="productTitle"></h2>
-  <div class="product">
-    <div class="swiper" id="swiper">
-      <div class="slides" id="slides">
-        <div class="slide"><img src="png_winter.png" alt="Winter"></div>
-        <div class="slide"><img src="png_summer.png" alt="Summer"></div>
+  
+  <div class="product-stage-container">
+    <div class="bottle-stage">
+      <div class="bottle-card winter active" onclick="if(index!==0) changeBtn.click()">
+        <img src="png_winter.png" alt="Winter Syrup">
+      </div>
+
+      <div class="bottle-card summer" onclick="if(index!==1) changeBtn.click()">
+        <img src="png_summer.png" alt="Summer Syrup">
       </div>
     </div>
+  </div>
+
+  <div class="product-info">
     <div class="edition" id="edition"></div>
     <p class="product-desc" id="productDesc"></p>
     <button class="change-btn" id="changeBtn"></button>
@@ -182,8 +337,8 @@
   <h2 id="drinkTitle"></h2>
   <div class="grid">
     <div class="card"><div class="card-img"><img src="icon1.png" alt="" onerror="this.style.display='none'"></div><p id="drink1"></p></div>
-    <div class="card"><div class="card-img"><img src="icon1.png" alt="" onerror="this.style.display='none'"></div><p id="drink2"></p></div>
-    <div class="card"><div class="card-img"><img src="icon1.png" alt="" onerror="this.style.display='none'"></div><p id="drink3"></p></div>
+    <div class="card"><div class="card-img"><img src="icon2.png" alt="" onerror="this.style.display='none'"></div><p id="drink2"></p></div>
+    <div class="card"><div class="card-img"><img src="icon3.png" alt="" onerror="this.style.display='none'"></div><p id="drink3"></p></div>
   </div>
 </section>
 
@@ -196,10 +351,7 @@
 </footer>
 
 <script>
-  function forceScrollTop() {
-    window.scrollTo({top: 0, left: 0, behavior: 'auto'});
-    if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
-  }
+  function forceScrollTop() { window.scrollTo({top: 0, left: 0, behavior: 'auto'}); if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; }
   window.onload = forceScrollTop;
   window.onbeforeunload = forceScrollTop;
   document.addEventListener('DOMContentLoaded', forceScrollTop);
@@ -207,16 +359,18 @@
   const copy = {
     ua: {
       tagline: "Магія дикої природи у кожній краплі. Крафтовий медовий еліксир, створений за стародавніми рецептами для сучасних ритуалів.", 
+      heroBtn: "ДІЗНАТИСЯ БІЛЬШЕ", contactBtn: "ЗВʼЯЗОК",
       productTitle: "Колекції", drinkTitle: "Мистецтво споживання", change: "Змінити смак",
       winter: "Зимова казка у пляшці. Глибокий смак темного меду поєднаний з зігріваючою корицею, бодяном та пікантним коренем імбиру. Ідеальний компаньйон для затишних вечорів, гарячого чаю або авторського глінтвейну.",
       summer: "Подих літнього вітру. Легкий та освіжаючий букет з лугових трав, прохолодної м'яти та соковитого лайма на основі ніжного квіткового меду. Додає вишуканості лимонадам та легким аперитивам у спекотний день.",
-      editionSuffix: "ВЕРСІЯ",
+      editionSuffix: "ЕДИЦІЯ",
       drink1: "CLASSIC TONIC: Наповніть келих льодом. Додайте 30 мл сиропу та 150 мл якісного тоніка. Прикрасьте гілочкою розмарину.",
       drink2: "MOON SPRITZ: Змішайте 40 мл сиропу з 60 мл ігристого вина (Prosecco) та сплешем газованої води. Подавайте зі слайсом апельсина.",
       drink3: "NATURE SOUR: У шейкері збийте 30 мл сиропу, 20 мл лимонного соку та лід. Процідіть у охолоджений келих для ідеального безалкогольного коктейлю."
     },
     en: {
       tagline: "Magic of wild nature in every drop. Craft honey elixir created from ancient recipes for modern rituals.", 
+      heroBtn: "LEARN MORE", contactBtn: "CONTACT",
       productTitle: "Collections", drinkTitle: "Art of Drinking", change: "Change Flavor",
       winter: "Winter fairy tale in a bottle. The deep taste of dark honey combined with warming cinnamon, star anise, and spicy ginger root. The perfect companion for cozy evenings, hot tea, or signature mulled wine.",
       summer: "Breath of the summer wind. Light and refreshing bouquet of meadow herbs, cool mint, and juicy lime based on delicate floral honey. Adds sophistication to lemonades and light aperitifs on a hot day.",
@@ -227,21 +381,40 @@
     }
   };
 
+  const flagUA = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480"><g fill-rule="evenodd" stroke-width="1pt"><path fill="#ffd700" d="M0 0h640v480H0z"/><path fill="#0057b8" d="M0 0h640v240H0z"/></g></svg>`;
+  const flagUK = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480"><path fill="#012169" d="M0 0h640v480H0z"/><path fill="#FFF" d="M75 0l244 181L562 0h78v62L400 241l240 178v61h-80L320 301 81 480H0v-60l239-178L0 64V0h75z"/><path fill="#C8102E" d="M424 281l216 159v40L369 281h55zm-184 20l6 35L54 480H0l240-179zM640 0v3L391 191l2-44L590 0h50zM0 0l239 176h-60L0 42V0z"/><path fill="#FFF" d="M241 0v480h160V0H241zM0 160v160h640V160H0z"/><path fill="#C8102E" d="M0 193v96h640v-96H0zM273 0v480h96V0h-96z"/></svg>`;
+
   let lang = 'ua';
   let index = 0;
 
-  const slides = document.getElementById('slides');
   const edition = document.getElementById('edition');
   const desc = document.getElementById('productDesc');
   const changeBtn = document.getElementById('changeBtn');
   const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
-  const uaBtn = document.getElementById('uaBtn');
-  const enBtn = document.getElementById('enBtn');
+  const floatingLang = document.getElementById('floatingLang');
+  const langFlag = document.getElementById('langFlag');
+  const langText = document.getElementById('langText');
+  
+  // ПЛЯШКИ
+  const winterBottle = document.querySelector('.bottle-card.winter');
+  const summerBottle = document.querySelector('.bottle-card.summer');
 
   function updateProduct() {
-    slides.style.transform = `translateX(-${index * 100}%)`;
+    // ЛОГІКА ПЕРЕМИКАННЯ 3D ПЛЯШОК
+    if (index === 0) {
+      // Зима активна
+      winterBottle.classList.add('active');
+      summerBottle.classList.remove('active');
+      document.body.setAttribute('data-product', 'winter');
+    } else {
+      // Літо активне
+      summerBottle.classList.add('active');
+      winterBottle.classList.remove('active');
+      document.body.setAttribute('data-product', 'summer');
+    }
+    
+    // Тексти
     const key = index === 0 ? 'winter' : 'summer';
-    document.body.setAttribute('data-product', index === 0 ? 'winter' : 'summer');
     const editionName = lang === 'ua' ? (index === 0 ? 'ЗИМОВА' : 'ЛІТНЯ') : (index === 0 ? 'WINTER' : 'SUMMER');
     edition.innerText = `${editionName} ${copy[lang].editionSuffix}`;
     desc.innerText = copy[lang][key];
@@ -261,52 +434,48 @@
     document.getElementById('drink1').innerText = copy[lang].drink1;
     document.getElementById('drink2').innerText = copy[lang].drink2;
     document.getElementById('drink3').innerText = copy[lang].drink3;
-    const heroBtn = document.querySelector('.hero .cta');
-    if(heroBtn) heroBtn.innerText = (lang === 'ua' ? 'ЗАМОВИТИ ЗАРАЗ' : 'ORDER NOW');
+    
+    const heroBtn = document.getElementById('heroBtn');
+    if(heroBtn) heroBtn.innerText = copy[lang].heroBtn;
+    
     const headerBtn = document.getElementById('contactBtn');
-    if(headerBtn) headerBtn.innerText = (lang === 'ua' ? 'ЗВʼЯЗОК' : 'CONTACT');
+    if(headerBtn) headerBtn.innerText = copy[lang].contactBtn;
+
+    if (lang === 'ua') { langFlag.innerHTML = flagUK; langText.innerText = "EN"; } 
+    else { langFlag.innerHTML = flagUA; langText.innerText = "UA"; }
+
     updateProduct();
   }
 
-  uaBtn.onclick = () => { lang = 'ua'; uaBtn.classList.add('active'); enBtn.classList.remove('active'); applyLang(); };
-  enBtn.onclick = () => { lang = 'en'; enBtn.classList.add('active'); uaBtn.classList.remove('active'); applyLang(); };
+  floatingLang.onclick = () => { lang = (lang === 'ua') ? 'en' : 'ua'; applyLang(); };
 
-  // --- ЛОГІКА МОДАЛЬНОГО ВІКНА ---
+  // MODAL
   const modal = document.getElementById("contactModal");
   const closeSpan = document.querySelector(".close");
   const triggers = document.querySelectorAll('.contact-trigger');
-
-  triggers.forEach(btn => {
-      btn.addEventListener('click', () => {
-          modal.classList.add('show');
-      });
-  });
-
-  function closeModal() {
-      modal.classList.remove('show');
-  }
-
+  triggers.forEach(btn => { btn.addEventListener('click', () => { modal.classList.add('show'); }); });
+  function closeModal() { modal.classList.remove('show'); }
   closeSpan.onclick = closeModal;
   window.onclick = function(event) { if (event.target == modal) closeModal(); }
 
-  // --- AJAX ВІДПРАВКА ФОРМИ (Щоб не було редіректу Formspree) ---
+  // AUTO RESIZE TEXTAREA + AJAX FORM
+  const messageInput = document.getElementById('message');
+  messageInput.addEventListener('input', function() {
+      this.style.height = 'auto'; 
+      this.style.height = (this.scrollHeight) + 'px'; 
+  });
+
   const form = document.getElementById("ajaxForm");
   const statusMsg = document.getElementById("statusMessage");
-
   async function handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
     const submitBtn = form.querySelector('.submit-btn');
     const originalText = submitBtn.innerText;
-    
     submitBtn.innerText = "Відправляємо...";
     submitBtn.disabled = true;
-
-    fetch(event.target.action, {
-      method: form.method,
-      body: data,
-      headers: { 'Accept': 'application/json' }
-    }).then(response => {
+    fetch(event.target.action, { method: form.method, body: data, headers: { 'Accept': 'application/json' } })
+    .then(response => {
       if (response.ok) {
         statusMsg.innerHTML = "Дякуємо! Ваше повідомлення надіслано.";
         statusMsg.className = "status-message success";
@@ -314,31 +483,24 @@
         setTimeout(() => { closeModal(); statusMsg.innerHTML=""; }, 2000);
       } else {
         response.json().then(data => {
-          if (Object.hasOwn(data, 'errors')) {
-            statusMsg.innerHTML = data["errors"].map(error => error["message"]).join(", ");
-          } else {
-            statusMsg.innerHTML = "Сталася помилка. Спробуйте ще раз.";
-          }
+          if (Object.hasOwn(data, 'errors')) { statusMsg.innerHTML = data["errors"].map(error => error["message"]).join(", "); } 
+          else { statusMsg.innerHTML = "Сталася помилка. Спробуйте ще раз."; }
           statusMsg.className = "status-message error";
         })
       }
     }).catch(error => {
-      statusMsg.innerHTML = "Помилка мережі. Перевірте з'єднання.";
-      statusMsg.className = "status-message error";
-    }).finally(() => {
-        submitBtn.innerText = originalText;
-        submitBtn.disabled = false;
-    });
+      statusMsg.innerHTML = "Помилка мережі."; statusMsg.className = "status-message error";
+    }).finally(() => { submitBtn.innerText = originalText; submitBtn.disabled = false; });
   }
   form.addEventListener("submit", handleSubmit);
 
-  // --- СТАРТ ---
+  // START
   toggleSwitch.checked = false;
   document.body.classList.remove('light');
   document.body.setAttribute('data-product', 'winter');
   applyLang();
 
-  // --- СНІГ ---
+  // SNOW
   const canvas = document.querySelector('.snow');
   const ctx = canvas.getContext('2d');
   let w, h;
