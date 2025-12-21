@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BRAND NAME</title>
-  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
 
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=STIX+Two+Text:wght@400;600&display=swap" rel="stylesheet">
 
@@ -27,8 +27,9 @@
       color: var(--text-light);
       line-height: 1.6;
       overflow-x: hidden;
-      transition: background-color 0.6s ease, color 0.3s ease;
+      transition: background-color 0.4s ease, color 0.3s ease;
       position: relative;
+      will-change: background-color;
     }
 
     /* --- ЛОГІКА ТЕМ --- */
@@ -40,7 +41,6 @@
     body.light { color: var(--text-dark); }
     body.light .card { border-color: rgba(0,0,0,0.1); background: rgba(0,0,0,0.05); }
     
-    /* Адаптація хедера і футера для світлої теми */
     body.light header, body.light footer { background: rgba(245, 241, 224, 0.95); }
     
     body.light .brand-text, body.light .hero-brand-text { color: var(--text-dark); }
@@ -51,29 +51,24 @@
     
     h1, h2, h3, .edition { font-family: var(--font-heading); }
 
-    /* --- МАТОВА ТЕКСТУРА (НОВЕ) --- */
+    /* --- ОПТИМІЗОВАНА МАТОВА ТЕКСТУРА --- */
     .bg-matte {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         z-index: -1; pointer-events: none;
-        
-        /* Комбінація: Шум + Віньєтка (затемнення по краях) */
-        background: 
-            /* Шар 1: Дрібний шум */
-            url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.07'/%3E%3C/svg%3E"),
-            /* Шар 2: Радіальний градієнт для глибини */
-            radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 20%, rgba(0,0,0,0.3) 100%);
-            
-        /* Додаткове розмиття для м'якості */
-        backdrop-filter: contrast(105%) brightness(95%);
+        opacity: 0.4; 
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
     }
-    /* Для світлої теми трохи менше затемнення */
-    body.light .bg-matte {
-        background: 
-            url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E"),
-            radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.1) 100%);
+    
+    /* ВІНЬЄТКА (ЗМІНЕНО: світліша) */
+    .bg-vignette {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        z-index: -1; pointer-events: none;
+        background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.4) 100%);
+        opacity: 0.3; /* Було 0.6, тепер набагато світліше */
     }
+    body.light .bg-vignette { opacity: 0.15; }
 
-    /* 2. РОЗДІЛЮВАЧ (Divider) */
+    /* 2. РОЗДІЛЮВАЧ */
     .section-divider {
         display: flex; align-items: center; justify-content: center;
         width: 100%; max-width: 400px; margin: 0 auto;
@@ -84,16 +79,19 @@
     }
     .divider-icon {
         color: var(--accent); margin: 0 15px; font-size: 16px;
-        transform: rotate(45deg); /* Ромбик */
-        width: 10px; height: 10px; border: 1px solid var(--accent); background: transparent;
+        transform: rotate(45deg); width: 10px; height: 10px; 
+        border: 1px solid var(--accent); background: transparent;
     }
 
     /* HEADER */
     header {
       position: fixed; top: 0; left: 0; width: 100%; z-index: 50;
       display: flex; justify-content: space-between; align-items: center;
-      padding: 14px 20px; background: rgba(15, 42, 29, 0.95); backdrop-filter: blur(8px);
+      padding: 14px 20px; 
+      background: rgba(15, 42, 29, 0.95); backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--accent);
+      transition: background-color 0.3s ease;
     }
     .brand-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
     .brand-img { height: 32px; width: auto; display: block; transition: 0.3s; }
@@ -107,24 +105,19 @@
 
     /* FOOTER */
     footer {
-        width: 100%;
-        padding: 40px 20px;
-        text-align: center;
-        background: rgba(15, 42, 29, 0.95);
-        backdrop-filter: blur(8px);
+        width: 100%; padding: 40px 20px; text-align: center;
+        background: rgba(15, 42, 29, 0.95); backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
         display: flex; flex-direction: column; align-items: center; justify-content: center;
         margin-top: 40px; 
-        border-top: 1px solid var(--accent); 
+        border-top: 1px solid var(--accent);
+        transition: background-color 0.3s ease; 
     }
 
-    /* СОЦІАЛЬНІ МЕРЕЖІ */
     .socials { margin-bottom: 15px; }
     .socials a { 
-        color: inherit; 
-        text-decoration: none; 
-        margin: 0 10px; 
-        transition: color 0.3s ease;
-        font-weight: 500;
+        color: inherit; text-decoration: none; margin: 0 10px; 
+        transition: color 0.3s ease; font-weight: 500;
     }
     body.light .socials a { color: var(--text-dark); }
     .socials a:hover, .socials a:active { color: var(--accent) !important; }
@@ -133,7 +126,8 @@
     .btn, .cta, .change-btn, .submit-btn {
       border: 1px solid var(--accent); color: var(--accent); background: transparent;
       padding: 8px 16px; font-size: 11px; cursor: pointer; border-radius: 50px;
-      transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px;
+      transition: background-color 0.3s ease, color 0.3s ease; 
+      text-transform: uppercase; letter-spacing: 1px;
       display: inline-block; text-decoration: none; font-family: var(--font-body); font-weight: 500;
     }
     .btn:hover, .cta:hover, .change-btn:hover { background: var(--accent); color: white; }
@@ -143,8 +137,10 @@
         position: fixed; bottom: 30px; z-index: 90;
         width: 50px; height: 50px; border-radius: 50%;
         background-color: rgba(15, 42, 29, 0.8); backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
         border: 1px solid var(--accent); display: flex; align-items: center; justify-content: center;
-        cursor: pointer; transition: all 0.3s ease; padding: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        cursor: pointer; transition: transform 0.3s ease, background-color 0.3s ease; padding: 0; 
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
     .floating-lang { right: 30px; }
     .flag-circle { width: 32px; height: 32px; border-radius: 50%; overflow: hidden; border: 2px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; }
@@ -206,7 +202,8 @@
     .product-stage-container { width: 100%; height: 450px; position: relative; display: flex; justify-content: center; align-items: center; margin-bottom: 20px; perspective: 1000px; }
     .bottle-stage { position: relative; width: 300px; height: 100%; display: flex; justify-content: center; align-items: center; }
     .bottle-card { position: absolute; width: 240px; transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer; top: 50%; left: 50%; transform-origin: center center; }
-    .bottle-card img { width: 100%; height: auto; display: block; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); }
+    /* Прискорюємо рендеринг картинок */
+    .bottle-card img { width: 100%; height: auto; display: block; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); will-change: transform; }
     .bottle-card.active { z-index: 10; transform: translate(-50%, -50%) scale(1.1); opacity: 1; filter: none; pointer-events: none; }
     .bottle-card.active img { animation: float 4s ease-in-out infinite; }
     .bottle-card.winter:not(.active) { z-index: 1; transform: translate(-110%, -50%) scale(0.7) rotate(-5deg); opacity: 0.6; filter: blur(2px) grayscale(40%); }
@@ -224,7 +221,6 @@
     .card { background: var(--card); padding: 30px 20px; text-align: center; border: 1px solid rgba(255,255,255,0.12); border-radius: 15px; transition: 0.3s; }
     .card:hover { transform: translateY(-5px); border-color: var(--accent); }
     .card-img { width: 60px; height: 60px; margin: 0 auto 20px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-    /* ТЕПЕР КАРТИНКИ ВСЕРЕДИНІ АДАПТУЮТЬСЯ */
     .card-img img { width: 60%; height: 60%; object-fit: contain; } 
     .card p { font-size: 15px; }
     
@@ -237,6 +233,7 @@
 <body>
 
 <div class="bg-matte"></div>
+<div class="bg-vignette"></div>
 <canvas class="snow"></canvas>
 
 <header>
@@ -277,7 +274,7 @@
     <span class="close">&times;</span>
     <h2 style="margin-top:0; margin-bottom:20px;">Напишіть нам</h2>
     
-    <form id="ajaxForm" action="https://formspree.io/f/mqezzvwz" method="POST">
+    <form id="ajaxForm" action="https://formspree.io/f/YOUR_ID_HERE" method="POST">
       <label for="type">Тема звернення</label>
       <select id="type" name="type">
         <option value="Замовлення">Замовлення продукту</option>
@@ -366,7 +363,6 @@
   window.onbeforeunload = forceScrollTop;
   document.addEventListener('DOMContentLoaded', forceScrollTop);
 
-  // ДАНІ ДЛЯ НАПОЇВ (ОКРЕМО)
   const drinkRecipes = {
     ua: {
       winter: [
@@ -439,29 +435,24 @@
       document.body.setAttribute('data-product', 'summer');
     }
     
-    // Оновлення текстового опису
     const key = index === 0 ? 'winter' : 'summer';
     const editionName = lang === 'ua' ? (index === 0 ? 'ЗИМОВА' : 'ЛІТНЯ') : (index === 0 ? 'WINTER' : 'SUMMER');
     edition.innerText = `${editionName} ${copy[lang].editionSuffix}`;
     desc.innerText = copy[lang][key];
 
-    // Оновлення рецептів ТА іконок
     updateDrinks(key);
   }
 
   function updateDrinks(season) {
-      // Оновлення тексту
       const recipes = drinkRecipes[lang][season];
       document.getElementById('drink1').innerText = recipes[0];
       document.getElementById('drink2').innerText = recipes[1];
       document.getElementById('drink3').innerText = recipes[2];
 
-      // Оновлення картинок
       document.getElementById('drinkImg1').src = `${season}_icon1.png`;
       document.getElementById('drinkImg2').src = `${season}_icon2.png`;
       document.getElementById('drinkImg3').src = `${season}_icon3.png`;
       
-      // Показуємо картинку, якщо вона прихована (через onerror)
       document.getElementById('drinkImg1').style.display = 'block';
       document.getElementById('drinkImg2').style.display = 'block';
       document.getElementById('drinkImg3').style.display = 'block';
@@ -485,7 +476,7 @@
     if (lang === 'ua') { langFlag.innerHTML = flagUK; } 
     else { langFlag.innerHTML = flagUA; }
     
-    updateProduct(); // Це також оновить рецепти правильною мовою
+    updateProduct(); 
   }
   floatingLang.onclick = () => { lang = (lang === 'ua') ? 'en' : 'ua'; applyLang(); };
 
@@ -515,19 +506,22 @@
   }
   form.addEventListener("submit", handleSubmit);
 
-  // СТАРТ
   toggleSwitch.checked = false;
   document.body.classList.remove('light');
   document.body.setAttribute('data-product', 'winter');
   applyLang();
 
-  // СНІГ (ЗВИЧАЙНИЙ БІЛИЙ)
+  // ОПТИМІЗОВАНИЙ СНІГ
   const canvas = document.querySelector('.snow');
   const ctx = canvas.getContext('2d');
   let w, h;
+  
+  // Зменшуємо кількість сніжинок на телефонах
+  const flakesCount = window.innerWidth < 600 ? 30 : 80;
+  
   function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
   window.addEventListener('resize', resize); resize();
-  const flakes = [...Array(80)].map(() => ({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 2 + 1, s: Math.random() * 1 + 0.5 }));
+  const flakes = [...Array(flakesCount)].map(() => ({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 2 + 1, s: Math.random() * 1 + 0.5 }));
   function snow() { 
     ctx.clearRect(0, 0, w, h); 
     ctx.fillStyle = document.body.classList.contains('light') ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.6)'; 
