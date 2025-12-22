@@ -244,6 +244,29 @@
     }
     body.light .recipe-detail-img { background: rgba(0,0,0,0.05); }
 
+    /* --- АДАПТИВНІСТЬ (MOBILE) --- */
+    @media (max-width: 600px) {
+        .modal-content {
+            width: 95%; /* Ширше на телефоні */
+            padding: 20px; /* Менше відступів всередині */
+            max-height: 85vh; /* Трохи менша висота, щоб не прилипало до країв */
+        }
+        
+        .close {
+            right: 15px;
+            top: 10px;
+            font-size: 32px; /* Більша кнопка закриття для пальця */
+            padding: 5px; /* Більша зона кліку */
+        }
+
+        .recipe-detail-img {
+            max-height: 180px; /* Менша картинка, щоб влазив текст */
+            padding: 10px;
+        }
+        
+        h2 { font-size: 28px; } /* Трохи менші заголовки */
+    }
+
     /* LAYOUT */
     .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; padding-top: 80px; position: relative; z-index: 2; }
     .logo-img { width: 260px; max-width: 70vw; height: auto; margin-bottom: 10px; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3)); transition: 0.3s; }
