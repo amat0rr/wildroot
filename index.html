@@ -10,7 +10,7 @@
 
   <style>
     :root {
-      /* --- НАЛАШТУВАННЯ ФАЙЛІВ ШУМУ (SVG) --- */
+      /* --- НАЛАШТУВАННЯ ФАЙЛІВ ШУМУ --- */
       --noise-img-dark: url('noise_dark.svg');   
       --noise-img-light: url('noise_light.svg'); 
 
@@ -18,6 +18,9 @@
       --bg-winter-dark: #0F2A1D; --bg-summer-dark: #2D4A2F; --bg-summer-light: #F5F1E0; --bg-winter-light: #E0DCC5;
       --text-light: #F5F1E0; --text-dark: #0F2A1D; --accent: #D4A017; --card: rgba(255,255,255,0.08);
       --font-body: 'IBM Plex Sans', sans-serif; --font-heading: 'STIX Two Text', serif;
+      
+      /* Змінна для поточного фону */
+      --main-bg: var(--bg-winter-dark);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -27,50 +30,44 @@
 
     body {
       font-family: var(--font-body);
-      background-color: var(--bg-winter-dark); 
+      background-color: var(--main-bg);
       color: var(--text-light);
       line-height: 1.6;
       overflow-x: hidden;
       transition: background-color 0.5s ease, color 0.3s ease;
       position: relative;
+      min-height: 100vh;
     }
 
-    /* --- АНІМОВАНИЙ ШУМ (БЕЗШОВНИЙ) --- */
+    /* --- ШУМ --- */
     .noise-bg {
-      position: fixed;
+      position: absolute; 
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 1; /* Під контентом */
+      z-index: 1; 
       
       background-image: var(--noise-img-dark);
       background-repeat: repeat;
-      
-      /* ВАЖЛИВО: Фіксуємо розмір патерну, щоб анімація була безшовною */
       background-size: 512px 512px; 
-      
       opacity: 0.5; 
       
-      /* Анімація прокрутки текстури */
-      /* РЕГУЛЮВАННЯ ШВИДКОСТІ: змініть 2s на інше значення (наприклад, 10s для повільного) */
-      animation: noise-scroll 30s linear infinite;
-      
+      animation: noise-flow 10s linear infinite;
       transition: background-image 0.3s ease, opacity 0.3s ease;
     }
 
-    /* Рухаємо саму текстуру рівно на її висоту (512px) */
-    @keyframes noise-scroll {
+    @keyframes noise-flow {
         0% { background-position: 0 0; }
         100% { background-position: 0 512px; }
     }
 
-    /* --- ЛОГІКА ТЕМ --- */
-    body[data-product="winter"] { background-color: var(--bg-winter-dark); }
-    body[data-product="summer"] { background-color: var(--bg-summer-dark); }
-    body.light[data-product="winter"] { background-color: var(--bg-winter-light) !important; }
-    body.light[data-product="summer"] { background-color: var(--bg-summer-light) !important; }
+    /* --- ТЕМИ --- */
+    body[data-product="winter"] { --main-bg: var(--bg-winter-dark); background-color: var(--main-bg); }
+    body[data-product="summer"] { --main-bg: var(--bg-summer-dark); background-color: var(--main-bg); }
+    body.light[data-product="winter"] { --main-bg: var(--bg-winter-light); background-color: var(--main-bg) !important; }
+    body.light[data-product="summer"] { --main-bg: var(--bg-summer-light); background-color: var(--main-bg) !important; }
 
     body.light { color: var(--text-dark); }
 
@@ -79,7 +76,16 @@
         opacity: 0.4; 
     }
 
-    body.light .card { border-color: rgba(0,0,0,0.1); background: rgba(0,0,0,0.05); }
+    /* Стилі картки для світлої теми */
+    body.light .card { 
+        --card: rgba(0,0,0,0.05);
+        border-color: rgba(0,0,0,0.1); 
+    }
+    
+    /* ВИПРАВЛЕННЯ: Додаємо явний ховер для світлої теми */
+    body.light .card:hover {
+        border-color: var(--accent);
+    }
     
     body.light header, body.light footer { background: rgba(245, 241, 224, 0.95); }
     
@@ -91,12 +97,12 @@
     
     h1, h2, h3, .edition { font-family: var(--font-heading); }
 
-    /* 2. РОЗДІЛЮВАЧ */
+    /* РОЗДІЛЮВАЧ */
     .section-divider {
         display: flex; align-items: center; justify-content: center;
         width: 100%; max-width: 400px; margin: 0 auto;
         opacity: 0.5; padding: 20px 0;
-        position: relative; z-index: 2; /* Поверх шуму */
+        position: relative; z-index: 2;
     }
     .section-divider::before, .section-divider::after {
         content: ""; height: 1px; background: var(--accent); flex: 1;
@@ -136,7 +142,7 @@
         margin-top: 40px; 
         border-top: 1px solid var(--accent);
         transition: background-color 0.3s ease;
-        position: relative; z-index: 2; /* Поверх шуму */
+        position: relative; z-index: 2; 
     }
 
     .socials { margin-bottom: 15px; }
@@ -149,11 +155,13 @@
 
     /* BUTTONS */
     .btn, .cta, .change-btn, .submit-btn {
-      border: 1px solid var(--accent); color: var(--accent); background: transparent;
+      border: 1px solid var(--accent); color: var(--accent);
+      background-color: var(--main-bg); /* Непрозорий фон */
       padding: 8px 16px; font-size: 11px; cursor: pointer; border-radius: 50px;
       transition: background-color 0.3s ease, color 0.3s ease; 
       text-transform: uppercase; letter-spacing: 1px;
       display: inline-block; text-decoration: none; font-family: var(--font-body); font-weight: 500;
+      position: relative; z-index: 2;
     }
     .btn:hover, .cta:hover, .change-btn:hover { background: var(--accent); color: white; }
 
@@ -243,8 +251,16 @@
     .product-desc { text-align: center; max-width: 600px; min-height: 5em; font-size: 15px; }
     
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
-    .card { background: var(--card); padding: 30px 20px; text-align: center; border: 1px solid rgba(255,255,255,0.12); border-radius: 15px; transition: 0.3s; }
+    
+    /* КАРТКИ */
+    .card { 
+        background: linear-gradient(var(--card), var(--card)), var(--main-bg);
+        padding: 30px 20px; text-align: center; border: 1px solid rgba(255,255,255,0.12); border-radius: 15px; transition: 0.3s; 
+        position: relative; z-index: 2; 
+    }
+    /* Цей ховер працює для темної теми */
     .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+    
     .card-img { width: 60px; height: 60px; margin: 0 auto 20px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
     .card-img img { width: 60%; height: 60%; object-fit: contain; } 
     .card p { font-size: 15px; }
@@ -299,7 +315,7 @@
     <span class="close">&times;</span>
     <h2 style="margin-top:0; margin-bottom:20px;">Напишіть нам</h2>
     
-    <form id="ajaxForm" action="https://formspree.io/f/mqezzvwz" method="POST">
+    <form id="ajaxForm" action="https://formspree.io/f/YOUR_ID_HERE" method="POST">
       <label for="type">Тема звернення</label>
       <select id="type" name="type">
         <option value="Замовлення">Замовлення продукту</option>
