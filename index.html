@@ -38,6 +38,11 @@
       min-height: 100vh;
     }
 
+    /* --- НОВИЙ КЛАС ДЛЯ БЛОКУВАННЯ СКРОЛУ --- */
+    body.no-scroll {
+      overflow: hidden;
+    }
+
     /* --- ШУМ --- */
     .noise-bg {
       position: absolute; 
@@ -212,11 +217,10 @@
     }
     .modal.show .modal-content { transform: scale(1); }
     
-    /* ЗМІНА: Явна обводка для світлої теми */
     body.light .modal-content { 
         background-color: var(--bg-summer-light); 
         color: var(--text-dark); 
-        border: 1px solid var(--accent); /* Ось це змінено */
+        border: 1px solid var(--accent); 
     }
     
     .close { color: var(--accent); float: right; font-size: 28px; font-weight: bold; cursor: pointer; position: absolute; right: 20px; top: 10px; }
@@ -275,14 +279,13 @@
         padding: 30px 20px; text-align: center; border: 1px solid rgba(255,255,255,0.12); border-radius: 15px; transition: 0.3s; 
         position: relative; z-index: 2; 
         cursor: pointer; 
-        display: flex; flex-direction: column; align-items: center; /* Центрування контенту */
+        display: flex; flex-direction: column; align-items: center;
     }
     .card:hover { transform: translateY(-5px); border-color: var(--accent); }
     
     .card-img { width: 60px; height: 60px; margin: 0 auto 20px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
     .card-img img { width: 60%; height: 60%; object-fit: contain; } 
     
-    /* Нові стилі для назви коктейлю в картці */
     .card h3 {
         font-family: var(--font-heading);
         font-size: 18px;
@@ -663,10 +666,20 @@
   const recipeModal = document.getElementById("recipeModal");
   const recipeClose = document.querySelector(".recipe-close");
 
-  contactTriggers.forEach(btn => { btn.addEventListener('click', () => { contactModal.classList.add('show'); }); });
-  aboutBtn.addEventListener('click', (e) => { e.preventDefault(); aboutModal.classList.add('show'); });
+  // ВІДКРИТТЯ ВІКОН + БЛОКУВАННЯ СКРОЛУ
+  contactTriggers.forEach(btn => { 
+      btn.addEventListener('click', () => { 
+          contactModal.classList.add('show'); 
+          document.body.classList.add('no-scroll');
+      }); 
+  });
+  
+  aboutBtn.addEventListener('click', (e) => { 
+      e.preventDefault(); 
+      aboutModal.classList.add('show'); 
+      document.body.classList.add('no-scroll');
+  });
 
-  // Функція відкриття рецепта
   function openRecipe(cardIndex) {
       const season = index === 0 ? 'winter' : 'summer';
       const recipeData = drinkRecipes[lang][season][cardIndex];
@@ -676,11 +689,22 @@
       document.getElementById('recipeImg').src = recipeData.img;
       
       recipeModal.classList.add('show');
+      document.body.classList.add('no-scroll');
   }
 
-  function closeContactModal() { contactModal.classList.remove('show'); }
-  function closeAboutModal() { aboutModal.classList.remove('show'); }
-  function closeRecipeModal() { recipeModal.classList.remove('show'); }
+  // ЗАКРИТТЯ ВІКОН + РОЗБЛОКУВАННЯ СКРОЛУ
+  function closeContactModal() { 
+      contactModal.classList.remove('show'); 
+      document.body.classList.remove('no-scroll');
+  }
+  function closeAboutModal() { 
+      aboutModal.classList.remove('show'); 
+      document.body.classList.remove('no-scroll');
+  }
+  function closeRecipeModal() { 
+      recipeModal.classList.remove('show'); 
+      document.body.classList.remove('no-scroll');
+  }
   
   contactClose.onclick = closeContactModal;
   aboutClose.onclick = closeAboutModal;
