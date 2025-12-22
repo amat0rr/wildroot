@@ -19,7 +19,6 @@
       --text-light: #F5F1E0; --text-dark: #0F2A1D; --accent: #D4A017; --card: rgba(255,255,255,0.08);
       --font-body: 'IBM Plex Sans', sans-serif; --font-heading: 'STIX Two Text', serif;
       
-      /* Змінна для поточного фону */
       --main-bg: var(--bg-winter-dark);
     }
 
@@ -82,10 +81,7 @@
         border-color: rgba(0,0,0,0.1); 
     }
     
-    /* ВИПРАВЛЕННЯ: Додаємо явний ховер для світлої теми */
-    body.light .card:hover {
-        border-color: var(--accent);
-    }
+    body.light .card:hover { border-color: var(--accent); }
     
     body.light header, body.light footer { background: rgba(245, 241, 224, 0.95); }
     
@@ -145,10 +141,11 @@
         position: relative; z-index: 2; 
     }
 
-    .socials { margin-bottom: 15px; }
+    .socials { margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 20px; }
     .socials a { 
-        color: inherit; text-decoration: none; margin: 0 10px; 
-        transition: color 0.3s ease; font-weight: 500;
+        color: inherit; text-decoration: none; 
+        transition: color 0.3s ease; font-weight: 500; font-size: 14px;
+        position: relative; cursor: pointer;
     }
     body.light .socials a { color: var(--text-dark); }
     .socials a:hover, .socials a:active { color: var(--accent) !important; }
@@ -156,7 +153,7 @@
     /* BUTTONS */
     .btn, .cta, .change-btn, .submit-btn {
       border: 1px solid var(--accent); color: var(--accent);
-      background-color: var(--main-bg); /* Непрозорий фон */
+      background-color: var(--main-bg); 
       padding: 8px 16px; font-size: 11px; cursor: pointer; border-radius: 50px;
       transition: background-color 0.3s ease, color 0.3s ease; 
       text-transform: uppercase; letter-spacing: 1px;
@@ -211,9 +208,17 @@
         padding: 30px; border-radius: 15px; width: 90%; max-width: 400px;
         position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         color: var(--text-light); transform: scale(0.95); transition: transform 0.3s ease;
+        max-height: 90vh; overflow-y: auto; 
     }
     .modal.show .modal-content { transform: scale(1); }
-    body.light .modal-content { background-color: var(--bg-summer-light); color: var(--text-dark); border-color: rgba(0,0,0,0.2); }
+    
+    /* ЗМІНА: Явна обводка для світлої теми */
+    body.light .modal-content { 
+        background-color: var(--bg-summer-light); 
+        color: var(--text-dark); 
+        border: 1px solid var(--accent); /* Ось це змінено */
+    }
+    
     .close { color: var(--accent); float: right; font-size: 28px; font-weight: bold; cursor: pointer; position: absolute; right: 20px; top: 10px; }
     form { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
     input, select, textarea { width: 100%; padding: 12px; border: none; border-bottom: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); color: inherit; font-family: var(--font-body); font-size: 16px; border-radius: 4px; outline: none; }
@@ -222,6 +227,18 @@
     label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; }
     .submit-btn { width: 100%; margin-top: 10px; background-color: var(--accent); color: white; border: none; }
     .submit-btn:hover { background-color: #b08d28; }
+    
+    /* СТИЛІ ДЛЯ КАРТИНОК В РЕЦЕПТАХ */
+    .recipe-detail-img {
+        width: 100%;
+        max-height: 250px;
+        object-fit: contain;
+        border-radius: 10px;
+        background: rgba(255,255,255,0.05);
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    body.light .recipe-detail-img { background: rgba(0,0,0,0.05); }
 
     /* LAYOUT */
     .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; padding-top: 80px; position: relative; z-index: 2; }
@@ -257,13 +274,25 @@
         background: linear-gradient(var(--card), var(--card)), var(--main-bg);
         padding: 30px 20px; text-align: center; border: 1px solid rgba(255,255,255,0.12); border-radius: 15px; transition: 0.3s; 
         position: relative; z-index: 2; 
+        cursor: pointer; 
+        display: flex; flex-direction: column; align-items: center; /* Центрування контенту */
     }
-    /* Цей ховер працює для темної теми */
     .card:hover { transform: translateY(-5px); border-color: var(--accent); }
     
     .card-img { width: 60px; height: 60px; margin: 0 auto 20px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
     .card-img img { width: 60%; height: 60%; object-fit: contain; } 
-    .card p { font-size: 15px; }
+    
+    /* Нові стилі для назви коктейлю в картці */
+    .card h3 {
+        font-family: var(--font-heading);
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .card p { font-size: 14px; opacity: 0.9; margin: 0; }
     
     .snow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; /* Сніг поверх усього */ }
     .status-message { margin-top: 10px; text-align: center; font-size: 14px; height: 20px; }
@@ -312,7 +341,7 @@
 
 <div id="contactModal" class="modal">
   <div class="modal-content">
-    <span class="close">&times;</span>
+    <span class="close contact-close">&times;</span>
     <h2 style="margin-top:0; margin-bottom:20px;">Напишіть нам</h2>
     
     <form id="ajaxForm" action="https://formspree.io/f/YOUR_ID_HERE" method="POST">
@@ -333,6 +362,23 @@
       <button type="submit" class="submit-btn">Надіслати</button>
       <div class="status-message" id="statusMessage"></div>
     </form>
+  </div>
+</div>
+
+<div id="aboutModal" class="modal">
+  <div class="modal-content">
+    <span class="close about-close">&times;</span>
+    <h2 id="aboutTitle" style="margin-top:0; margin-bottom:20px;"></h2>
+    <p id="aboutText" style="text-align: justify;"></p>
+  </div>
+</div>
+
+<div id="recipeModal" class="modal">
+  <div class="modal-content">
+    <span class="close recipe-close">&times;</span>
+    <h2 id="recipeTitle" style="margin-top:0; margin-bottom:20px; text-align: center;"></h2>
+    <img id="recipeImg" src="" alt="Cocktail Image" class="recipe-detail-img">
+    <p id="recipeText" style="text-align: justify; white-space: pre-line;"></p>
   </div>
 </div>
 
@@ -375,17 +421,20 @@
 <section>
   <h2 id="drinkTitle"></h2>
   <div class="grid">
-    <div class="card">
+    <div class="card" onclick="openRecipe(0)">
         <div class="card-img"><img id="drinkImg1" src="" alt="" onerror="this.style.display='none'"></div>
-        <p id="drink1"></p>
+        <h3 id="drinkTitle1"></h3>
+        <p id="drinkDesc1"></p>
     </div>
-    <div class="card">
+    <div class="card" onclick="openRecipe(1)">
         <div class="card-img"><img id="drinkImg2" src="" alt="" onerror="this.style.display='none'"></div>
-        <p id="drink2"></p>
+        <h3 id="drinkTitle2"></h3>
+        <p id="drinkDesc2"></p>
     </div>
-    <div class="card">
+    <div class="card" onclick="openRecipe(2)">
         <div class="card-img"><img id="drinkImg3" src="" alt="" onerror="this.style.display='none'"></div>
-        <p id="drink3"></p>
+        <h3 id="drinkTitle3"></h3>
+        <p id="drinkDesc3"></p>
     </div>
   </div>
 </section>
@@ -394,6 +443,7 @@
   <div class="socials">
     <a href="https://www.instagram.com/amat0rr">Instagram</a>
     <a href="https://www.tiktok.com/@amatorr_studio">TikTok</a>
+    <a href="#" id="aboutBtn">Про нас</a>
   </div>
   <p>© 2025 BRAND NAME</p>
 </footer>
@@ -404,29 +454,90 @@
   window.onbeforeunload = forceScrollTop;
   document.addEventListener('DOMContentLoaded', forceScrollTop);
 
+  // ОНОВЛЕНІ ДАНІ (title окремо, опис без повтору назви)
   const drinkRecipes = {
     ua: {
       winter: [
-        "HOT TODDY: 40мл сиропу, 150мл окропу, лимон. Ідеальний зігріваючий напій для холодного вечора.",
-        "SPICED COFFEE: Додайте 30мл сиропу у чорну каву замість цукру для пряного аромату.",
-        "FOREST TEA: Трав'яний чай, 30мл сиропу, паличка кориці. Справжня магія лісу в чашці."
+        {
+            name: "HOT TODDY",
+            short: "40мл сиропу, 150мл окропу, лимон. Ідеальний зігріваючий напій.",
+            full: "Класичний зимовий напій, що зігріває душу.\n\nІнгредієнти:\n• 40 мл зимового сиропу\n• 150 мл окропу або чорного чаю\n• Слайс лимона\n• Паличка кориці для прикраси\n\nПриготування:\nЗмішайте сироп з гарячою водою у чашці. Додайте лимон та корицю. Насолоджуйтесь теплом.",
+            img: "winter_icon1.png"
+        },
+        {
+            name: "SPICED COFFEE",
+            short: "Додайте 30мл сиропу у чорну каву замість цукру для пряного аромату.",
+            full: "Кава з новим характером.\n\nІнгредієнти:\n• 30 мл зимового сиропу\n• 150 мл свіжозвареної чорної кави\n• Збиті вершки (за бажанням)\n\nПриготування:\nЗваріть вашу улюблену каву. Додайте сироп замість цукру. За бажанням прикрасьте вершками.",
+            img: "winter_icon2.png"
+        },
+        {
+            name: "FOREST TEA",
+            short: "Трав'яний чай, 30мл сиропу, паличка кориці. Справжня магія лісу.",
+            full: "Аромат лісу у вашій чашці.\n\nІнгредієнти:\n• 30 мл зимового сиропу\n• 200 мл трав'яного чаю\n• Гілочка розмарину\n\nПриготування:\nЗаваріть чай. Додайте сироп та перемішайте. Прикрасьте розмарином для підсилення аромату.",
+            img: "winter_icon3.png"
+        }
       ],
       summer: [
-        "CLASSIC TONIC: Келих з льодом, 30мл сиропу, 150мл тоніка. Прикрасьте розмарином.",
-        "MOON SPRITZ: 40мл сиропу, 60мл Просекко, сплеш газованої води та слайс апельсина.",
-        "NATURE SOUR: 30мл сиропу, 20мл лимонного соку, лід. Збийте у шейкері."
+        {
+            name: "CLASSIC TONIC",
+            short: "Келих з льодом, 30мл сиропу, 150мл тоніка. Прикрасьте розмарином.",
+            full: "Освіжаюча класика для спекотного дня.\n\nІнгредієнти:\n• 30 мл літнього сиропу\n• 150 мл тоніка\n• Лід\n• Розмарин\n\nПриготування:\nНаповніть келих льодом. Налийте сироп та тонік. Обережно перемішайте.",
+            img: "summer_icon1.png"
+        },
+        {
+            name: "MOON SPRITZ",
+            short: "40мл сиропу, 60мл Просекко, сплеш газованої води та слайс апельсина.",
+            full: "Легкий та ігристий аперитив.\n\nІнгредієнти:\n• 40 мл літнього сиропу\n• 60 мл Просекко\n• 20 мл газованої води\n• Апельсин\n\nПриготування:\nУ келих з льодом налийте всі інгредієнти. Прикрасьте слайсом апельсина.",
+            img: "summer_icon2.png"
+        },
+        {
+            name: "NATURE SOUR",
+            short: "30мл сиропу, 20мл лимонного соку, лід. Збийте у шейкері.",
+            full: "Кисло-солодкий баланс природи.\n\nІнгредієнти:\n• 30 мл літнього сиропу\n• 20 мл лимонного соку\n• Лід\n• Яєчний білок (опціонально)\n\nПриготування:\nЗбийте всі інгредієнти у шейкері з льодом. Процідіть у келих.",
+            img: "summer_icon3.png"
+        }
       ]
     },
     en: {
       winter: [
-        "HOT TODDY: 40ml syrup, 150ml boiling water, lemon. Perfect warming drink for a cold evening.",
-        "SPICED COFFEE: Add 30ml syrup to black coffee instead of sugar for a spicy aroma.",
-        "FOREST TEA: Herbal tea, 30ml syrup, cinnamon stick. Real forest magic in a cup."
+        {
+            name: "HOT TODDY",
+            short: "40ml syrup, 150ml boiling water, lemon. Perfect warming drink.",
+            full: "A classic winter drink that warms the soul.\n\nIngredients:\n• 40 ml winter syrup\n• 150 ml boiling water or black tea\n• Lemon slice\n• Cinnamon stick for garnish\n\nPreparation:\nMix syrup with hot water in a cup. Add lemon and cinnamon. Enjoy the warmth.",
+            img: "winter_icon1.png"
+        },
+        {
+            name: "SPICED COFFEE",
+            short: "Add 30ml syrup to black coffee instead of sugar for a spicy aroma.",
+            full: "Coffee with a new character.\n\nIngredients:\n• 30 ml winter syrup\n• 150 ml freshly brewed black coffee\n• Whipped cream (optional)\n\nPreparation:\nBrew your favorite coffee. Add syrup instead of sugar. Garnish with cream if desired.",
+            img: "winter_icon2.png"
+        },
+        {
+            name: "FOREST TEA",
+            short: "Herbal tea, 30ml syrup, cinnamon stick. Real forest magic.",
+            full: "Forest aroma in your cup.\n\nIngredients:\n• 30 ml winter syrup\n• 200 ml herbal tea\n• Rosemary sprig\n\nPreparation:\nBrew the tea. Add syrup and stir. Garnish with rosemary to enhance the aroma.",
+            img: "winter_icon3.png"
+        }
       ],
       summer: [
-        "CLASSIC TONIC: Glass with ice, 30ml syrup, 150ml tonic. Garnish with rosemary.",
-        "MOON SPRITZ: 40ml syrup, 60ml Prosecco, splash of soda water and an orange slice.",
-        "NATURE SOUR: 30ml syrup, 20ml lemon juice, ice. Shake well."
+        {
+            name: "CLASSIC TONIC",
+            short: "Glass with ice, 30ml syrup, 150ml tonic. Garnish with rosemary.",
+            full: "Refreshing classic for a hot day.\n\nIngredients:\n• 30 ml summer syrup\n• 150 ml tonic water\n• Ice\n• Rosemary\n\nPreparation:\nFill a glass with ice. Pour syrup and tonic. Stir gently.",
+            img: "summer_icon1.png"
+        },
+        {
+            name: "MOON SPRITZ",
+            short: "40ml syrup, 60ml Prosecco, splash of soda water and an orange slice.",
+            full: "Light and bubbly aperitif.\n\nIngredients:\n• 40 ml summer syrup\n• 60 ml Prosecco\n• 20 ml soda water\n• Orange\n\nPreparation:\nPour all ingredients into a glass with ice. Garnish with an orange slice.",
+            img: "summer_icon2.png"
+        },
+        {
+            name: "NATURE SOUR",
+            short: "30ml syrup, 20ml lemon juice, ice. Shake well.",
+            full: "Sweet and sour balance of nature.\n\nIngredients:\n• 30 ml summer syrup\n• 20 ml lemon juice\n• Ice\n• Egg white (optional)\n\nPreparation:\nShake all ingredients in a shaker with ice. Strain into a glass.",
+            img: "summer_icon3.png"
+        }
       ]
     }
   };
@@ -438,7 +549,10 @@
       productTitle: "Колекції", drinkTitle: "Мистецтво споживання", change: "Змінити смак",
       winter: "Зимова казка у пляшці. Глибокий смак темного меду поєднаний з зігріваючою корицею, бодяном та пікантним коренем імбиру. Ідеальний компаньйон для затишних вечорів, гарячого чаю або авторського глінтвейну.",
       summer: "Подих літнього вітру. Легкий та освіжаючий букет з лугових трав, прохолодної м'яти та соковитого лайма на основі ніжного квіткового меду. Додає вишуканості лимонадам та легким аперитивам у спекотний день.",
-      editionSuffix: "ВЕРСІЯ"
+      editionSuffix: "ВЕРСІЯ",
+      aboutLink: "Про нас",
+      aboutTitle: "Наша історія",
+      aboutText: "BRAND NAME — це історія про повернення до витоків. Ми віримо, що природа має відповіді на всі питання, а смак може бути не просто відчуттям, а емоцією.<br><br>Наші сиропи створюються вручну, невеликими партіями, щоб зберегти душу кожного інгредієнта. Ми використовуємо лише натуральний мед, зібраний на диких пасіках, та трави, що виросли під сонцем, а не в теплицях.<br><br>Це не просто додаток до напоїв. Це спроба зупинити час, вдихнути аромат лісу чи поля і відчути справжній смак життя."
     },
     en: {
       tagline: "Magic of wild nature in every drop. Craft honey elixir created from ancient recipes for modern rituals.", 
@@ -446,7 +560,10 @@
       productTitle: "Collections", drinkTitle: "Art of Drinking", change: "Change Flavor",
       winter: "Winter fairy tale in a bottle. The deep taste of dark honey combined with warming cinnamon, star anise, and spicy ginger root. The perfect companion for cozy evenings, hot tea, or signature mulled wine.",
       summer: "Breath of the summer wind. Light and refreshing bouquet of meadow herbs, cool mint, and juicy lime based on delicate floral honey. Adds sophistication to lemonades and light aperitifs on a hot day.",
-      editionSuffix: "EDITION"
+      editionSuffix: "EDITION",
+      aboutLink: "About Us",
+      aboutTitle: "Our Story",
+      aboutText: "BRAND NAME is a story about returning to the roots. We believe that nature has answers to all questions, and taste can be not just a sensation, but an emotion.<br><br>Our syrups are handcrafted in small batches to preserve the soul of every ingredient. We use only natural honey collected from wild apiaries and herbs grown under the sun, not in greenhouses.<br><br>It's not just an additive to drinks. It's an attempt to stop time, breathe in the scent of the forest or field, and feel the true taste of life."
     }
   };
 
@@ -486,13 +603,20 @@
 
   function updateDrinks(season) {
       const recipes = drinkRecipes[lang][season];
-      document.getElementById('drink1').innerText = recipes[0];
-      document.getElementById('drink2').innerText = recipes[1];
-      document.getElementById('drink3').innerText = recipes[2];
+      
+      // Заповнюємо картки окремо назвою і окремо описом
+      document.getElementById('drinkTitle1').innerText = recipes[0].name;
+      document.getElementById('drinkDesc1').innerText = recipes[0].short;
+      
+      document.getElementById('drinkTitle2').innerText = recipes[1].name;
+      document.getElementById('drinkDesc2').innerText = recipes[1].short;
+      
+      document.getElementById('drinkTitle3').innerText = recipes[2].name;
+      document.getElementById('drinkDesc3').innerText = recipes[2].short;
 
-      document.getElementById('drinkImg1').src = `${season}_icon1.png`;
-      document.getElementById('drinkImg2').src = `${season}_icon2.png`;
-      document.getElementById('drinkImg3').src = `${season}_icon3.png`;
+      document.getElementById('drinkImg1').src = recipes[0].img;
+      document.getElementById('drinkImg2').src = recipes[1].img;
+      document.getElementById('drinkImg3').src = recipes[2].img;
       
       document.getElementById('drinkImg1').style.display = 'block';
       document.getElementById('drinkImg2').style.display = 'block';
@@ -511,6 +635,11 @@
     document.getElementById('drinkTitle').innerText = copy[lang].drinkTitle;
     document.getElementById('changeBtn').innerText = copy[lang].change;
     
+    // Оновлення текстів "Про нас"
+    document.getElementById('aboutBtn').innerText = copy[lang].aboutLink;
+    document.getElementById('aboutTitle').innerText = copy[lang].aboutTitle;
+    document.getElementById('aboutText').innerHTML = copy[lang].aboutText;
+    
     const heroBtn = document.getElementById('heroBtn');
     if(heroBtn) heroBtn.innerText = copy[lang].heroBtn;
     
@@ -521,13 +650,48 @@
   }
   floatingLang.onclick = () => { lang = (lang === 'ua') ? 'en' : 'ua'; applyLang(); };
 
-  const modal = document.getElementById("contactModal");
-  const closeSpan = document.querySelector(".close");
-  const triggers = document.querySelectorAll('.contact-trigger');
-  triggers.forEach(btn => { btn.addEventListener('click', () => { modal.classList.add('show'); }); });
-  function closeModal() { modal.classList.remove('show'); }
-  closeSpan.onclick = closeModal;
-  window.onclick = function(event) { if (event.target == modal) closeModal(); }
+  // --- ЛОГІКА МОДАЛЬНИХ ВІКОН ---
+  
+  const contactModal = document.getElementById("contactModal");
+  const contactClose = document.querySelector(".contact-close");
+  const contactTriggers = document.querySelectorAll('.contact-trigger');
+  
+  const aboutModal = document.getElementById("aboutModal");
+  const aboutClose = document.querySelector(".about-close");
+  const aboutBtn = document.getElementById("aboutBtn");
+  
+  const recipeModal = document.getElementById("recipeModal");
+  const recipeClose = document.querySelector(".recipe-close");
+
+  contactTriggers.forEach(btn => { btn.addEventListener('click', () => { contactModal.classList.add('show'); }); });
+  aboutBtn.addEventListener('click', (e) => { e.preventDefault(); aboutModal.classList.add('show'); });
+
+  // Функція відкриття рецепта
+  function openRecipe(cardIndex) {
+      const season = index === 0 ? 'winter' : 'summer';
+      const recipeData = drinkRecipes[lang][season][cardIndex];
+      
+      document.getElementById('recipeTitle').innerText = recipeData.name;
+      document.getElementById('recipeText').innerText = recipeData.full;
+      document.getElementById('recipeImg').src = recipeData.img;
+      
+      recipeModal.classList.add('show');
+  }
+
+  function closeContactModal() { contactModal.classList.remove('show'); }
+  function closeAboutModal() { aboutModal.classList.remove('show'); }
+  function closeRecipeModal() { recipeModal.classList.remove('show'); }
+  
+  contactClose.onclick = closeContactModal;
+  aboutClose.onclick = closeAboutModal;
+  recipeClose.onclick = closeRecipeModal;
+
+  window.onclick = function(event) { 
+      if (event.target == contactModal) closeContactModal();
+      if (event.target == aboutModal) closeAboutModal();
+      if (event.target == recipeModal) closeRecipeModal();
+  }
+
   const messageInput = document.getElementById('message');
   messageInput.addEventListener('input', function() { this.style.height = 'auto'; this.style.height = (this.scrollHeight) + 'px'; });
   const form = document.getElementById("ajaxForm");
@@ -541,7 +705,7 @@
     submitBtn.disabled = true;
     fetch(event.target.action, { method: form.method, body: data, headers: { 'Accept': 'application/json' } })
     .then(response => {
-      if (response.ok) { statusMsg.innerHTML = "Дякуємо! Ваше повідомлення надіслано."; statusMsg.className = "status-message success"; form.reset(); setTimeout(() => { closeModal(); statusMsg.innerHTML=""; }, 2000); } 
+      if (response.ok) { statusMsg.innerHTML = "Дякуємо! Ваше повідомлення надіслано."; statusMsg.className = "status-message success"; form.reset(); setTimeout(() => { closeContactModal(); statusMsg.innerHTML=""; }, 2000); } 
       else { response.json().then(data => { if (Object.hasOwn(data, 'errors')) { statusMsg.innerHTML = data["errors"].map(error => error["message"]).join(", "); } else { statusMsg.innerHTML = "Сталася помилка. Спробуйте ще раз."; } statusMsg.className = "status-message error"; }) }
     }).catch(error => { statusMsg.innerHTML = "Помилка мережі."; statusMsg.className = "status-message error"; }).finally(() => { submitBtn.innerText = originalText; submitBtn.disabled = false; });
   }
@@ -556,10 +720,7 @@
   const canvas = document.querySelector('.snow');
   const ctx = canvas.getContext('2d');
   let w, h;
-  
-  // Зменшуємо кількість сніжинок на телефонах
   const flakesCount = window.innerWidth < 600 ? 30 : 80;
-  
   function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
   window.addEventListener('resize', resize); resize();
   const flakes = [...Array(flakesCount)].map(() => ({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 2 + 1, s: Math.random() * 1 + 0.5 }));
