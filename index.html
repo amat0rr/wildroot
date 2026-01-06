@@ -12,9 +12,11 @@
 
   <style>
     :root {
+      /* Файли шуму */
       --noise-img-dark: url('noise_dark.svg');   
       --noise-img-light: url('noise_light.svg'); 
 
+      /* Кольори */
       --bg-winter-dark: #0F2A1D; --bg-summer-dark: #2D4A2F; --bg-summer-light: #F5F1E0; --bg-winter-light: #E0DCC5;
       --text-light: #F5F1E0; --text-dark: #0F2A1D; --accent: #D4A017; --card: rgba(255,255,255,0.08);
       --font-body: 'IBM Plex Sans', sans-serif; --font-heading: 'STIX Two Text', serif;
@@ -24,7 +26,7 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
-    /* Lenis рекомендовані налаштування */
+    /* Lenis (Плавний скрол) */
     html.lenis, html.lenis body { height: auto; }
     .lenis.lenis-smooth { scroll-behavior: auto !important; }
     .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
@@ -45,7 +47,7 @@
 
     body.no-scroll { overflow: hidden; }
 
-    /* --- ШУМ --- */
+    /* --- ФОНОВИЙ ШУМ --- */
     .noise-bg {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -54,7 +56,7 @@
       background-repeat: repeat;
       background-size: 512px 512px; 
       opacity: 0.5; 
-      transform: translateZ(0);
+      transform: translateZ(0); /* GPU acceleration */
       animation: noise-flow 10s linear infinite;
       transition: background-image 0.3s ease, opacity 0.3s ease;
     }
@@ -64,13 +66,55 @@
         100% { background-position: 0 512px; }
     }
 
-    /* Мобільна оптимізація */
+    /* --- ЕФЕКТ "СИРОПУ" (ЛОКАЛЬНИЙ) --- */
+    .syrup-glow {
+        position: absolute; /* Тепер він прив'язаний до батьківського блоку */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        background: radial-gradient(circle, rgba(212, 160, 23, 0.4) 0%, rgba(212, 160, 23, 0) 70%);
+        filter: blur(60px);
+        will-change: transform, opacity;
+        animation: pulse-syrup 6s ease-in-out infinite;
+        z-index: -1; /* Щоб бути позаду контенту */
+    }
+
+    /* Налаштування розмірів для різних зон */
+    .hero-glow {
+        width: 600px;
+        height: 600px;
+    }
+
+    .product-glow {
+        width: 500px;
+        height: 500px;
+        /* Трохи зміщуємо вгору, щоб бути чітко за пляшкою */
+        transform: translate(-50%, -60%); 
+    }
+
+    @keyframes pulse-syrup {
+        0% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+        50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.6; }
+        100% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+    }
+
+    /* Адаптація для світлої теми */
+    body.light .syrup-glow {
+        background: radial-gradient(circle, rgba(45, 74, 47, 0.25) 0%, rgba(45, 74, 47, 0) 70%);
+    }
+
+    /* --- МОБІЛЬНА ОПТИМІЗАЦІЯ --- */
     @media (hover: none) and (pointer: coarse), (max-width: 768px) {
         .noise-bg { animation: none; background-attachment: scroll; }
         .bottle-card img { filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3)) !important; }
+        
+        /* Зменшуємо плями на телефонах */
+        .hero-glow { width: 350px; height: 350px; filter: blur(40px); }
+        .product-glow { width: 300px; height: 300px; filter: blur(40px); }
     }
 
-    /* --- ТЕМИ --- */
+    /* --- ЛОГІКА ТЕМ --- */
     body[data-product="winter"] { --main-bg: var(--bg-winter-dark); background-color: var(--main-bg); }
     body[data-product="summer"] { --main-bg: var(--bg-summer-dark); background-color: var(--main-bg); }
     body.light[data-product="winter"] { --main-bg: var(--bg-winter-light); background-color: var(--main-bg) !important; }
@@ -87,7 +131,7 @@
     
     h1, h2, h3, .edition { font-family: var(--font-heading); }
 
-    /* UI ЕЛЕМЕНТИ */
+    /* UI КОМПОНЕНТИ */
     .section-divider {
         display: flex; align-items: center; justify-content: center;
         width: 100%; max-width: 400px; margin: 0 auto;
@@ -320,7 +364,7 @@
 </div>
 
 <div class="hero">
-  <img src="logo.svg" alt="Logo" class="logo-img">
+  <div class="syrup-glow hero-glow"></div> <img src="logo.svg" alt="Logo" class="logo-img">
   <div class="hero-brand-text">BRAND NAME</div>
   <p id="tagline" style="margin-bottom: 30px;"></p>
   <a href="#product" class="cta" id="heroBtn" style="border-radius:50px; text-decoration: none; display: inline-block;">ДІЗНАТИСЯ БІЛЬШЕ</a>
@@ -332,8 +376,9 @@
 
 <section id="product">
   <h2 id="productTitle"></h2>
+  
   <div class="product-stage-container">
-    <div class="bottle-stage">
+    <div class="syrup-glow product-glow"></div> <div class="bottle-stage">
       <div class="bottle-card winter" onclick="if(index!==0) changeBtn.click()">
         <img src="png_winter.png" alt="Winter Syrup">
       </div>
@@ -342,6 +387,7 @@
       </div>
     </div>
   </div>
+
   <div class="product-info">
     <div class="edition" id="edition"></div>
     <p class="product-desc" id="productDesc"></p>
@@ -391,8 +437,7 @@
   window.onbeforeunload = forceScrollTop;
   document.addEventListener('DOMContentLoaded', forceScrollTop);
 
-  // 2. ІНІЦІАЛІЗАЦІЯ ПЛАВНОГО СКРОЛУ
-  // smoothTouch: false - вимикає Lenis на мобільних, щоб зберігся нативний, легкий скрол
+  // Ініціалізація Lenis
   const lenis = new Lenis({
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -400,7 +445,7 @@
     gestureDirection: 'vertical',
     smooth: true,
     mouseMultiplier: 1,
-    smoothTouch: false,
+    smoothTouch: false, // Важливо для Android
     touchMultiplier: 2,
   });
 
@@ -410,7 +455,6 @@
   }
   requestAnimationFrame(raf);
 
-  // Плавний скрол для якорів (кнопок меню) через Lenis
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
@@ -552,7 +596,7 @@
       btn.addEventListener('click', () => { 
           contactModal.classList.add('show'); 
           document.body.classList.add('no-scroll');
-          lenis.stop(); // Зупиняємо Lenis при відкритті модалки
+          lenis.stop();
       }); 
   });
   
