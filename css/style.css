@@ -1,6 +1,6 @@
 :root {
-  --circle-size: 60px;
-  --icon-scale: 60%;
+  --circle-size: 100px;
+  --icon-scale: 100%;
   --noise-img-dark: url('../assets/noise_dark.svg');   
   --noise-img-light: url('../assets/noise_light.svg'); 
   --bg-winter-dark: #0F2A1D; --bg-summer-dark: #2D4A2F; --bg-summer-light: #F5F1E0; --bg-winter-light: #E0DCC5;
@@ -164,18 +164,38 @@ body.light .socials a { color: var(--text-dark); }
 body.light .floating-btn { background-color: rgba(245, 241, 224, 0.8); }
 @media (hover: hover) { .floating-btn:hover { transform: translateY(-3px) scale(1.05); background-color: var(--accent); } .floating-contact:hover svg { fill: white; } }
 
+/* СВІТЧЕР ТЕМИ */
 .theme-switch-wrapper { display: flex; align-items: center; margin-left: 5px; }
 .theme-switch { display: inline-block; height: 30px; position: relative; width: 56px; }
 .theme-switch input { display: none; }
 .slider { background-color: #1a1a1a; bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 34px; display: flex; align-items: center; justify-content: space-between; padding: 0 6px; border: 1px solid var(--accent); }
-.icon { width: 16px; height: 16px; transition: .4s; z-index: 1; }
+
+.icon { 
+    width: 16px; 
+    height: 16px; 
+    transition: .4s; 
+    z-index: 1; 
+    /* Додаємо базовий колір для іконок */
+    fill: #fff; 
+}
+
 .icon-sun { opacity: 0; transform: scale(0.5); } 
 .icon-moon { opacity: 1; filter: drop-shadow(0 0 3px rgba(255,255,255,0.6)); } 
 .icon-moon path { opacity: 1 !important; fill: #ffffff; }
+
 .knob { background-color: #fff; bottom: 3px; height: 22px; left: 4px; position: absolute; transition: .4s; width: 22px; border-radius: 50%; z-index: 2; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+
+/* АКТИВНИЙ СТАН (СВІТЛА ТЕМА) */
 input:checked + .slider { background-color: var(--accent); border-color: transparent; }
 input:checked + .slider .knob { transform: translateX(26px); }
-input:checked + .slider .icon-sun { opacity: 1; transform: scale(1); }
+
+/* Коли увімкнено: показуємо сонце і ФАРБУЄМО його в темний */
+input:checked + .slider .icon-sun { 
+    opacity: 1; 
+    transform: scale(1);
+    fill: var(--bg-summer-light); /* Світлий колір */
+}
+
 input:checked + .slider .icon-moon { opacity: 0; transform: scale(0.5); }
 
 .modal {
@@ -276,9 +296,34 @@ h2 { text-align: center; font-size: 34px; margin-bottom: 40px; font-weight: 600;
 .card { background: linear-gradient(var(--card), var(--card)), var(--main-bg); padding: 30px 20px; text-align: center; border: 1px solid rgba(255,255,255,0.12); border-radius: 15px; transition: 0.3s; position: relative; z-index: 2; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
 .card:hover { transform: translateY(-5px); border-color: var(--accent); }
 
-.card-img { width: var(--circle-size); height: var(--circle-size); margin: 0 auto 20px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.card-img img { width: var(--icon-scale); height: var(--icon-scale); object-fit: contain; transform: translateY(100px); filter: drop-shadow(0 -100px 0 var(--accent)); transition: filter 0.3s ease; } 
-body.light .card-img img { filter: drop-shadow(0 -100px 0 var(--text-dark)); }
+.card-img { 
+    width: var(--circle-size);  /* Розмір контейнера регулюється зверху файлу */
+    height: var(--circle-size); 
+    margin: 0 auto 20px; 
+    
+    /* ЗМІНИ ТУТ: */
+    background: transparent;    /* Прибираємо сірий фон */
+    border-radius: 0;           /* Прибираємо заокруглення */
+    
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    overflow: hidden; /* Це важливо залишити для зміни кольору іконк */
+}
+
+/* Стилі самої картинки залишаються тими ж */
+.card-img img { 
+    width: var(--icon-scale); 
+    height: var(--icon-scale); 
+    object-fit: contain; 
+    transform: translateY(100px); 
+    filter: drop-shadow(0 -100px 0 var(--accent)); 
+    transition: filter 0.3s ease; 
+} 
+
+body.light .card-img img { 
+    filter: drop-shadow(0 -100px 0 var(--text-dark)); 
+}
 
 .card h3 { font-family: var(--font-heading); font-size: 18px; margin-bottom: 10px; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
 .card p { font-size: 14px; opacity: 0.9; margin: 0; }
