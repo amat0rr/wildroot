@@ -42,21 +42,21 @@ const drinkRecipes = {
         name: "HOT TODDY", 
         short: "40мл сиропу, 150мл окропу, лимон. Ідеальний зігріваючий напій.", 
         full: "Класичний зимовий напій, що зігріває душу.\n\nІнгредієнти:\n• 40 мл зимового сиропу\n• 150 мл окропу або чорного чаю\n• Слайс лимона\n• Паличка кориці для прикраси\n\nПриготування:\nЗмішайте сироп з гарячою водою у чашці. Додайте лимон та корицю. Насолоджуйтесь теплом.", 
-        icon: "assets/winter-icon-1.svg", 
+        icon: "assets/winter-icon-1.png", 
         detailImage: "assets/winter-picture-1.jpg" 
       },
       { 
         name: "SPICED COFFEE", 
         short: "Додайте 30мл сиропу у чорну каву замість цукру для пряного аромату.", 
         full: "Кава з новим характером.\n\nІнгредієнти:\n• 30 мл зимового сиропу\n• 150 мл свіжозвареної чорної кави\n• Збиті вершки (за бажанням)\n\nПриготування:\nЗваріть вашу улюблену каву. Додайте сироп замість цукру. За бажанням прикрасьте вершками.", 
-        icon: "assets/winter-icon-2.svg", 
+        icon: "assets/winter-icon-2.png", 
         detailImage: "assets/winter-picture-2.jpg" 
       },
       { 
         name: "FOREST TEA", 
         short: "Трав'яний чай, 30мл сиропу, паличка кориці. Справжня магія лісу.", 
         full: "Аромат лісу у вашій чашці.\n\nІнгредієнти:\n• 30 мл зимового сиропу\n• 200 мл трав'яного чаю\n• Гілочка розмарину\n\nПриготування:\nЗаваріть чай. Додайте сироп та перемішайте. Прикрасьте розмарином для підсилення аромату.", 
-        icon: "assets/winter-icon-3.svg", 
+        icon: "assets/winter-icon-3.png", 
         detailImage: "assets/winter-picture-3.jpg" 
       }
     ],
@@ -65,21 +65,21 @@ const drinkRecipes = {
         name: "CLASSIC TONIC", 
         short: "Келих з льодом, 30мл сиропу, 150мл тоніка. Прикрасьте розмарином.", 
         full: "Освіжаюча класика для спекотного дня.\n\nІнгредієнти:\n• 30 мл літнього сиропу\n• 150 мл тоніка\n• Лід\n• Розмарин\n\nПриготування:\nНаповніть келих льодом. Налийте сироп та тонік. Обережно перемішайте.", 
-        icon: "assets/summer-icon-1.svg", 
+        icon: "assets/summer-icon-1.png", 
         detailImage: "assets/summer-picture-1.jpg" 
       },
       { 
         name: "MOON SPRITZ", 
         short: "40мл сиропу, 60мл Просекко, сплеш газованої води та слайс апельсина.", 
         full: "Легкий та ігристий аперитив.\n\nІнгредієнти:\n• 40 мл літнього сиропу\n• 60 мл Просекко\n• 20 мл газованої води\n• Апельсин\n\nПриготування:\nУ келих з льодом налийте всі інгредієнти. Прикрасьте слайсом апельсина.", 
-        icon: "assets/summer-icon-2.svg", 
+        icon: "assets/summer-icon-2.png", 
         detailImage: "assets/summer-picture-2.jpg" 
       },
       { 
         name: "NATURE SOUR", 
         short: "30мл сиропу, 20мл лимонного соку, лід. Збийте у шейкері.", 
         full: "Кисло-солодкий баланс природи.\n\nІнгредієнти:\n• 30 мл літнього сиропу\n• 20 мл лимонного соку\n• Лід\n• Яєчний білок (опціонально)\n\nПриготування:\nЗбийте всі інгредієнти у шейкері з льодом. Процідіть у келих.", 
-        icon: "assets/summer-icon-3.svg", 
+        icon: "assets/summer-icon-3.png", 
         detailImage: "assets/summer-picture-3.jpg" 
       }
     ]
@@ -90,21 +90,21 @@ const drinkRecipes = {
         name: "HOT TODDY", 
         short: "40ml syrup, 150ml boiling water, lemon. Perfect warming drink.", 
         full: "A classic winter drink that warms the soul.\n\nIngredients:\n• 40 ml winter syrup\n• 150 ml boiling water or black tea\n• Lemon slice\n• Cinnamon stick for garnish\n\nPreparation:\nMix syrup with hot water in a cup. Add lemon and cinnamon. Enjoy the warmth.", 
-        icon: "assets/winter-icon-1.svg", 
+        icon: "assets/winter-icon-1.png", 
         detailImage: "assets/winter-picture-1.jpg" 
       },
       { 
         name: "SPICED COFFEE", 
         short: "Add 30ml syrup to black coffee instead of sugar for a spicy aroma.", 
         full: "Coffee with a new character.\n\nIngredients:\n• 30 ml winter syrup\n• 150 ml freshly brewed black coffee\n• Whipped cream (optional)\n\nPreparation:\nBrew your favorite coffee. Add syrup instead of sugar. Garnish with cream if desired.", 
-        icon: "assets/winter-icon-2.svg", 
+        icon: "assets/winter-icon-2.png", 
         detailImage: "assets/winter-picture-2.jpg" 
       },
       { 
         name: "FOREST TEA", 
         short: "Herbal tea, 30ml syrup, cinnamon stick. Real forest magic.", 
         full: "Forest aroma in your cup.\n\nIngredients:\n• 30 ml winter syrup\n• 200 ml herbal tea\n• Rosemary sprig\n\nPreparation:\nBrew the tea. Add syrup and stir. Garnish with rosemary to enhance the aroma.", 
-        icon: "assets/winter-icon-3.svg", 
+        icon: "assets/winter-icon-3.png", 
         detailImage: "assets/winter-picture-3.jpg" 
       }
     ],
@@ -113,21 +113,21 @@ const drinkRecipes = {
         name: "CLASSIC TONIC", 
         short: "Glass with ice, 30ml syrup, 150ml tonic. Garnish with rosemary.", 
         full: "Refreshing classic for a hot day.\n\nIngredients:\n• 30 ml summer syrup\n• 150 ml tonic water\n• Ice\n• Rosemary\n\nPreparation:\nFill a glass with ice. Pour syrup and tonic. Stir gently.", 
-        icon: "assets/summer-icon-1.svg", 
+        icon: "assets/summer-icon-1.png", 
         detailImage: "assets/summer-picture-1.jpg" 
       },
       { 
         name: "MOON SPRITZ", 
         short: "40ml syrup, 60ml Prosecco, splash of soda water and an orange slice.", 
         full: "Light and bubbly aperitif.\n\nIngredients:\n• 40 ml summer syrup\n• 60 ml Prosecco\n• 20 ml soda water\n• Orange\n\nPreparation:\nPour all ingredients into a glass with ice. Garnish with an orange slice.", 
-        icon: "assets/summer-icon-2.svg", 
+        icon: "assets/summer-icon-2.png", 
         detailImage: "assets/summer-picture-2.jpg" 
       },
       { 
         name: "NATURE SOUR", 
         short: "30ml syrup, 20ml lemon juice, ice. Shake well.", 
         full: "Sweet and sour balance of nature.\n\nIngredients:\n• 30 ml summer syrup\n• 20 ml lemon juice\n• Ice\n• Egg white (optional)\n\nPreparation:\nShake all ingredients in a shaker with ice. Strain into a glass.", 
-        icon: "assets/summer-icon-3.svg", 
+        icon: "assets/summer-icon-3.png", 
         detailImage: "assets/summer-picture-3.jpg" 
       }
     ]
